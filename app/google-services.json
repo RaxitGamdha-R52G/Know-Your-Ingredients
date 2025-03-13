@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "744134172399",
+    "project_id": "know-your-ingredients-72",
+    "storage_bucket": "know-your-ingredients-72.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744134172399:android:947a102325ca9813fd451a",
+        "android_client_info": {
+          "package_name": "com.kyi.knowyouringredients"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFHCKSp910I6WM19MUgjOAE5bOc6jv4_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
