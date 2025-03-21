@@ -1,4 +1,4 @@
-package com.kyi.knowyouringredients.util
+package com.kyi.knowyouringredients.core.domain.util
 
 typealias DomainError = Error
 

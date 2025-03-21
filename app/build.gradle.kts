@@ -26,6 +26,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.org/api/v3/\"")
+        }
+
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.net/api/v3/\"")
         }
     }
     compileOptions {
@@ -36,24 +41,27 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
 
 dependencies {
-    //Moshi JSON
+    implementation(libs.bundles.koin)
+    implementation(libs.bundles.ktor)
+    implementation(libs.bundles.compose.core)
+    implementation(libs.bundles.compose.material3)
+    implementation(libs.bundles.compose.lifecycle)
+
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    // Moshi JSON
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
     ksp(libs.moshi.kotlin.codegen)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
