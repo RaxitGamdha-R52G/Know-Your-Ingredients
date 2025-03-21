@@ -1,9 +1,9 @@
 package com.kyi.knowyouringredients.ingredients.presentation
 
-import com.kyi.knowyouringredients.ingredients.domain.Ingredient
-import com.kyi.knowyouringredients.ingredients.domain.Nutriments
-import com.kyi.knowyouringredients.ingredients.domain.Packaging
-import com.kyi.knowyouringredients.ingredients.domain.Product
+import com.kyi.knowyouringredients.ingredients.domain.models.Ingredient
+import com.kyi.knowyouringredients.ingredients.domain.models.Nutriments
+import com.kyi.knowyouringredients.ingredients.domain.models.Packaging
+import com.kyi.knowyouringredients.ingredients.domain.models.Product
 
 // Internal preview data in domain model form
 internal val productPreview = Product(

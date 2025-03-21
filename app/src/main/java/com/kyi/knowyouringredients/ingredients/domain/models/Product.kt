@@ -1,4 +1,4 @@
-package com.kyi.knowyouringredients.ingredients.domain
+package com.kyi.knowyouringredients.ingredients.domain.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

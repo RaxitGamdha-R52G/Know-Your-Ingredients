@@ -1,6 +1,6 @@
 package com.kyi.knowyouringredients.ingredients.presentation.models
 
-import com.kyi.knowyouringredients.ingredients.domain.Packaging
+import com.kyi.knowyouringredients.ingredients.domain.models.Packaging
 
 data class PackagingUI(
     val material: String,

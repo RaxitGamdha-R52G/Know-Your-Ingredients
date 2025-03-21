@@ -1,6 +1,6 @@
 package com.kyi.knowyouringredients.ingredients.presentation.models
 
-import com.kyi.knowyouringredients.ingredients.domain.Product
+import com.kyi.knowyouringredients.ingredients.domain.models.Product
 
 data class ProductUI(
     val code: String,

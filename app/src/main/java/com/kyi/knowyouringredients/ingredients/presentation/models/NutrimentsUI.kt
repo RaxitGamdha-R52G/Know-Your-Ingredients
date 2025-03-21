@@ -1,6 +1,6 @@
 package com.kyi.knowyouringredients.ingredients.presentation.models
 
-import com.kyi.knowyouringredients.ingredients.domain.Nutriments
+import com.kyi.knowyouringredients.ingredients.domain.models.Nutriments
 
 data class NutrimentsUI(
     val energyKcal100g: String,
