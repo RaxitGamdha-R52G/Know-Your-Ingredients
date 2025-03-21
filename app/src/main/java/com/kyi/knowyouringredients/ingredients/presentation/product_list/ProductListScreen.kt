@@ -10,10 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
+import com.kyi.knowyouringredients.ingredients.presentation.productPreview
 import com.kyi.knowyouringredients.ingredients.presentation.product_list.component.ProductListItem
-import com.kyi.knowyouringredients.ingredients.presentation.product_list.component.productPreview
 import com.kyi.knowyouringredients.ui.theme.KnowYourIngredientsTheme
 import kotlin.random.Random
 
@@ -47,6 +48,7 @@ fun ProductListScreen(
 }
 
 @Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun ProductListScreenPreview() {
     KnowYourIngredientsTheme {
