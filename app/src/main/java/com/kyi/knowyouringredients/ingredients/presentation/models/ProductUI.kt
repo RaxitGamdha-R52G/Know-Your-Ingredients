@@ -9,12 +9,10 @@ data class ProductUI(
     val packaging: List<PackagingUI> = emptyList(),
     val ingredients: List<IngredientUI> = emptyList(),
     val nutriments: NutrimentsUI? = null,
-    val nutritionGrade: String? = null,
-    val nutritionScore: Int? = null,
-    val additivesCount: Int? = null,
-    val additivesTags: List<String> = emptyList(),
-    val allergens: List<String> = emptyList(),
-    val categories: List<String> = emptyList(),
+    val nutritionInfo: NutritionInfoUI? = null,
+    val additivesInfo: AdditivesInfoUI? = null,
+    val allergensInfo: AllergensInfoUI? = null,
+    val categoriesInfo: CategoriesInfoUI? = null,
     val quantity: String? = null,
     val servingSize: String? = null
 ) {
@@ -27,12 +25,10 @@ data class ProductUI(
                 packaging = product.packaging.map { PackagingUI.fromDomain(it) },
                 ingredients = product.ingredients.map { IngredientUI.fromDomain(it) },
                 nutriments = product.nutriments?.let { NutrimentsUI.fromDomain(it) },
-                nutritionGrade = product.nutritionGrade?.uppercase(),
-                nutritionScore = product.nutritionScore,
-                additivesCount = product.additivesN,
-                additivesTags = product.additivesTags.map { it.replace(Regex("^[a-z]{2}:"), "") },
-                allergens = product.allergensTags.map { it.replace(Regex("^[a-z]{2}:"), "") },
-                categories = product.categoriesTags.map { it.replace(Regex("^[a-z]{2}:"), "") },
+                nutritionInfo = product.nutritionInfo?.let { NutritionInfoUI.fromDomain(it) },
+                additivesInfo = product.additivesInfo?.let { AdditivesInfoUI.fromDomain(it) },
+                allergensInfo = product.allergensInfo?.let { AllergensInfoUI.fromDomain(it) },
+                categoriesInfo = product.categoriesInfo?.let { CategoriesInfoUI.fromDomain(it) },
                 quantity = product.quantity,
                 servingSize = product.servingSize
             )

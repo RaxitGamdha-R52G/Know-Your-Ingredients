@@ -16,7 +16,8 @@ data class PackagingUI(
                 quantity = "${packaging.numberOfUnits ?: "1"} x ${packaging.quantityValue ?: "0"} ${packaging.quantityUnit ?: "g"}",
                 shape = packaging.shape?.replace(Regex("^[a-z]{2}:"), "") ?: "Unknown",
                 recycling = packaging.recycling?.replace(Regex("^[a-z]{2}:"), "") ?: "N/A",
-                weight = packaging.weightMeasured?.let { "$it g" } ?: "N/A"
+                weight = packaging.weightMeasured?.toDisplayableNumber()?.formatted?.let { "$it g" }
+                    ?: "N/A"
             )
         }
     }
