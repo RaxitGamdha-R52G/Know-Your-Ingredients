@@ -3,17 +3,20 @@ package com.kyi.knowyouringredients.ingredients.presentation.models
 import com.kyi.knowyouringredients.ingredients.domain.Packaging
 
 data class PackagingUI(
-    val material: String,   // Material type (e.g., "Glass", "Plastic")
-    val quantity: String,   // Combined quantity and unit (e.g., "1.0 g")
-    val shape: String       // Shape with default fallback (e.g., "Unknown")
+    val material: String,
+    val quantity: String,
+    val shape: String,
+    val recycling: String,
+    val weight: String
 ) {
     companion object {
-        // Factory function to create PackagingUI from domain Packaging
         fun fromDomain(packaging: Packaging): PackagingUI {
             return PackagingUI(
-                material = packaging.material,
-                quantity = "${packaging.quantityValue} ${packaging.quantityUnit}",
-                shape = packaging.shape ?: "Unknown"
+                material = packaging.material?.replace(Regex("^[a-z]{2}:"), "") ?: "Unknown",
+                quantity = "${packaging.numberOfUnits ?: "1"} x ${packaging.quantityValue ?: "0"} ${packaging.quantityUnit ?: "g"}",
+                shape = packaging.shape?.replace(Regex("^[a-z]{2}:"), "") ?: "Unknown",
+                recycling = packaging.recycling?.replace(Regex("^[a-z]{2}:"), "") ?: "N/A",
+                weight = packaging.weightMeasured?.let { "$it g" } ?: "N/A"
             )
         }
     }

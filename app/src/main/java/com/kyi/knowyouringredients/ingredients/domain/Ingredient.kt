@@ -1,12 +1,21 @@
 package com.kyi.knowyouringredients.ingredients.domain
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Ingredient(
-    val name: String,                       // Ingredient name
-    val description: String? = null,        // Description with fallback
-    val isVegan: String? = null,            // Vegan status (e.g., "yes", "no", "maybe")
-    val isVegetarian: String? = null,       // Vegetarian status (e.g., "yes", "no", "maybe")
-    val percentEstimate: Double? = null,    // Percentage estimate (optional)
-    val percentMin: Double? = null,         // Minimum percentage (optional)
-    val percentMax: Double? = null,         // Maximum percentage (optional)
+    @SerialName("id") val id: String,
+    @SerialName("text") val name: String,
+    @SerialName("vegan") val isVegan: String? = null,
+    @SerialName("vegetarian") val isVegetarian: String? = null,
+    @SerialName("percent") val percent: Double? = null, // Exact percentage when available
+    @SerialName("percent_estimate") val percentEstimate: Double? = null,
+    @SerialName("percent_min") val percentMin: Double? = null,
+    @SerialName("percent_max") val percentMax: Double? = null,
+    @SerialName("ciqual_food_code") val ciqualFoodCode: String? = null,
+    @SerialName("ecobalyse_code") val ecobalyseCode: String? = null,
+    @SerialName("from_palm_oil") val fromPalmOil: String? = null,
+    @SerialName("is_in_taxonomy") val isInTaxonomy: Int? = null,
+    @SerialName("ingredients") val subIngredients: List<Ingredient> = emptyList()
 )

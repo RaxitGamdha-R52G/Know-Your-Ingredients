@@ -7,39 +7,35 @@ data class ProductUI(
     val productName: String,
     val brands: List<String> = emptyList(),
     val packaging: List<PackagingUI> = emptyList(),
-    val ingredients: List<IngredientUI> = emptyList(),          //ingredients_tags
+    val ingredients: List<IngredientUI> = emptyList(),
     val nutriments: NutrimentsUI? = null,
     val nutritionGrade: String? = null,
     val nutritionScore: Int? = null,
+    val additivesCount: Int? = null,
+    val additivesTags: List<String> = emptyList(),
+    val allergens: List<String> = emptyList(),
+    val categories: List<String> = emptyList(),
+    val quantity: String? = null,
+    val servingSize: String? = null
 ) {
     companion object {
-        // Factory function to convert Product to ProductUI
         fun fromDomain(product: Product): ProductUI {
             return ProductUI(
                 code = product.code,
-                productName = product.productName,
+                productName = product.productName.ifEmpty { "Unknown Product" },
                 brands = product.brands?.split(",")?.map { it.trim() } ?: emptyList(),
                 packaging = product.packaging.map { PackagingUI.fromDomain(it) },
                 ingredients = product.ingredients.map { IngredientUI.fromDomain(it) },
-                nutriments = NutrimentsUI.fromDomain(product.nutriments),
-                nutritionGrade = product.nutritionGrade,
-                nutritionScore = product.nutritionScore
+                nutriments = product.nutriments?.let { NutrimentsUI.fromDomain(it) },
+                nutritionGrade = product.nutritionGrade?.uppercase(),
+                nutritionScore = product.nutritionScore,
+                additivesCount = product.additivesN,
+                additivesTags = product.additivesTags.map { it.replace(Regex("^[a-z]{2}:"), "") },
+                allergens = product.allergensTags.map { it.replace(Regex("^[a-z]{2}:"), "") },
+                categories = product.categoriesTags.map { it.replace(Regex("^[a-z]{2}:"), "") },
+                quantity = product.quantity,
+                servingSize = product.servingSize
             )
         }
     }
 }
-
-//// Extension function to convert Product to ProductUI
-//fun Product.toUI(): ProductUI {
-//    return ProductUI(
-//        code = this.code,
-//        productName = this.productName,
-//        brands = this.brands?.split(",")?.map { it.trim() }
-//            ?: emptyList(), // Split brands into list
-//        packaging = this.packaging.map { PackagingUI.fromDomain(it) },
-//        ingredients = this.ingredients.map { IngredientUI.fromDomain(it) },
-//        nutriments = NutrimentsUI.fromDomain(this.nutriments),
-//        nutritionGrade = this.nutritionGrade,
-//        nutritionScore = this.nutritionScore
-//    )
-//}
