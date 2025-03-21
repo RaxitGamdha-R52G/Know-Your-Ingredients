@@ -9,7 +9,7 @@ data class Ingredient(
     @SerialName("text") val name: String,
     @SerialName("vegan") val isVegan: String? = null,
     @SerialName("vegetarian") val isVegetarian: String? = null,
-    @SerialName("percent") val percent: Double? = null, // Exact percentage when available
+    @SerialName("percent") val percent: Double? = null,
     @SerialName("percent_estimate") val percentEstimate: Double? = null,
     @SerialName("percent_min") val percentMin: Double? = null,
     @SerialName("percent_max") val percentMax: Double? = null,

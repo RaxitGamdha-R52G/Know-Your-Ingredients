@@ -32,7 +32,6 @@ data class Nutriments(
     @SerialName("salt_unit") val saltUnit: String? = null,
 
     // Additional Metrics
-    @SerialName("nova-group_100g") val novaGroup100g: Int? = null,
     @SerialName("nutrition-score-fr_100g") val nutritionScoreFr100g: Int? = null,
     @SerialName("carbon-footprint-from-known-ingredients_100g") val carbonFootprint100g: Double? = null,
     @SerialName("fruits-vegetables-nuts-estimate-from-ingredients_100g") val fruitsVeggiesNuts100g: Double? = null
