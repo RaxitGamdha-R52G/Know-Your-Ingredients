@@ -1,7 +1,7 @@
 package com.kyi.knowyouringredients.ingredients.data.networking
 
-import com.kyi.knowyouringredients.core.core.networking.constructUrl
-import com.kyi.knowyouringredients.core.core.networking.safeCall
+import com.kyi.knowyouringredients.core.data.networking.constructUrl
+import com.kyi.knowyouringredients.core.data.networking.safeCall
 import com.kyi.knowyouringredients.core.domain.util.NetworkError
 import com.kyi.knowyouringredients.core.domain.util.Result
 import com.kyi.knowyouringredients.core.domain.util.map
