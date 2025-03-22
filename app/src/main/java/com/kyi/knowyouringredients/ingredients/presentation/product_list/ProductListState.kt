@@ -8,4 +8,7 @@ data class ProductListState(
     val isLoading: Boolean = false,
     val products: List<ProductUI> = emptyList(),
     val selectedProduct: ProductUI? = null,
+    val page: Int = 1,
+    val pageSize: Int = 24,
+    val totalCount: Int = 0,
 )

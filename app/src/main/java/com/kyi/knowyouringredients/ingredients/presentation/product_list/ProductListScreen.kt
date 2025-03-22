@@ -2,10 +2,15 @@ package com.kyi.knowyouringredients.ingredients.presentation.product_list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,24 +21,17 @@ import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 import com.kyi.knowyouringredients.ingredients.presentation.productPreview
 import com.kyi.knowyouringredients.ingredients.presentation.product_list.component.ProductListItem
 import com.kyi.knowyouringredients.ui.theme.KnowYourIngredientsTheme
-import kotlin.random.Random
 
 @Composable
 fun ProductListScreen(
     state: ProductListState,
     onProductClick: (ProductUI) -> Unit,
+    onLoadMore: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (state.isLoading) {
-        Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
+    Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(state.products) { productUi ->
@@ -42,6 +40,24 @@ fun ProductListScreen(
                     onClick = { onProductClick(productUi) }
                 )
             }
+            if (state.page * state.pageSize < state.totalCount) {
+                item {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Button(onClick = onLoadMore) {
+                            Text("Load More")
+                        }
+                        if (state.isLoading) {
+                            CircularProgressIndicator(modifier = Modifier.padding(top = 8.dp))
+                        }
+                    }
+                }
+            }
+        }
+        if (state.isLoading && state.products.isEmpty()) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }
 }
@@ -65,7 +81,44 @@ private fun ProductListScreenPreview() {
                     )
                 }
             ),
-            onProductClick = { /* No-op */ }
+            onProductClick = { /* No-op */ },
+            onLoadMore = { /* TODO */ }
         )
     }
 }
+
+
+//@Composable
+//fun ProductListScreen(
+//    state: ProductListState,
+//    onProductClick: (ProductUI) -> Unit,
+//    onLoadMore: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
+//    if (state.isLoading && state.products.isEmpty()) {
+//        Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+//            CircularProgressIndicator()
+//        }
+//    } else {
+//        LazyColumn(
+//            modifier = modifier.fillMaxSize(),
+//            verticalArrangement = Arrangement.spacedBy(8.dp)
+//        ) {
+//            items(state.products) { productUi ->
+//                ProductListItem(
+//                    productUI = productUi,
+//                    onClick = { onProductClick(productUi) }
+//                )
+//            }
+//            if (state.page * state.pageSize < state.totalCount) {
+//                item {
+//                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+//                        Button(onClick = onLoadMore) {
+//                            Text("Load More")
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
