@@ -17,13 +17,30 @@ import io.ktor.client.request.parameter
 class RemoteProductDataSource(
     private val httpClient: HttpClient
 ) : ProductDataSource {
-    override suspend fun getProducts(): Result<List<Product>, NetworkError> {
+
+    override suspend fun getProducts(
+        brands: String?,
+        categories: String?,
+        nutritionGrade: String?,
+        page: Int,
+        pageSize: Int
+    ): Result<Pair<List<Product>, Int>, NetworkError> {
         return safeCall<ProductsResponseDto> {
             httpClient.get(
-                urlString = constructUrl("/products")
-            )
-        }.map { response: ProductsResponseDto ->
-            response.products.map { it.toProduct() }
+                urlString = constructUrl("/search")
+            ) {
+                parameter(
+                    "fields",
+                    "code,product_name,brands,packagings,ingredients,nutriments,nutrition_grade_fr,nutrition_score_fr,nova_group,nutrient_levels,additives_n,additives_tags,allergens_tags,categories_tags,quantity,serving_size"
+                )
+                parameter("page", page.toString())
+                parameter("page_size", pageSize.toString())
+                brands?.let { parameter("brands_tags", it) }
+                categories?.let { parameter("categories_tags", it) }
+                nutritionGrade?.let { parameter("nutrition_grades_tags", it) }
+            }
+        }.map { response ->
+            response.products.map { it.toProduct() } to response.count
         }
     }
 
@@ -45,7 +62,7 @@ class RemoteProductDataSource(
                 parameter("lc", languageCode)
                 parameter("tags_lc", tagsLanguageCode)
             }
-        }.map { response: ProductResponseDto ->
+        }.map { response ->
             response.product.toProduct()
         }
     }

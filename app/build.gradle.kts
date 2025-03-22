@@ -26,11 +26,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.org/api/v3/\"")
+            buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.org/api/v2/\"")
         }
 
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.net/api/v3/\"")
+            buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.net/api/v2/\"")
         }
     }
     compileOptions {
