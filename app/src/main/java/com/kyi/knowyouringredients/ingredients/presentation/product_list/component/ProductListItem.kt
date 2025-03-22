@@ -3,15 +3,7 @@ package com.kyi.knowyouringredients.ingredients.presentation.product_list.compon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -75,7 +67,6 @@ fun ProductListItem(
                     )
                 )
                 .drawBehind {
-                    // Subtle wave pattern with your specified colors
                     drawCircle(
                         color = primaryColor.copy(alpha = 0.2f),
                         radius = size.width * 0.8f,
@@ -93,11 +84,7 @@ fun ProductListItem(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Main content
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    // Product name
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = productUI.productName,
                         style = MaterialTheme.typography.titleLarge.copy(fontSize = 22.sp),
@@ -108,7 +95,6 @@ fun ProductListItem(
                     )
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    // Brands
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = Modifier
@@ -139,7 +125,6 @@ fun ProductListItem(
                         )
                     }
 
-                    // Quantity (only shown if not null)
                     productUI.quantity?.let { quantity ->
                         Spacer(modifier = Modifier.height(6.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -149,12 +134,9 @@ fun ProductListItem(
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.semantics {
-                                    contentDescription = "Quantity: $quantity"
-                                }
+                                modifier = Modifier.semantics { contentDescription = "Quantity: $quantity" }
                             )
-                            // Additives (only shown if not null)
-                            productUI.additivesCount?.let { count ->
+                            productUI.additivesInfo?.count?.let { count ->
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Box(
                                     modifier = Modifier
@@ -173,16 +155,13 @@ fun ProductListItem(
                                         style = MaterialTheme.typography.labelSmall,
                                         color = MaterialTheme.colorScheme.onSurface,
                                         fontWeight = FontWeight.Medium,
-                                        modifier = Modifier.semantics {
-                                            contentDescription = "Additives: $count"
-                                        }
+                                        modifier = Modifier.semantics { contentDescription = "Additives: $count" }
                                     )
                                 }
                             }
                         }
                     }
 
-                    // Barcode
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = "Barcode: ${productUI.code}",
@@ -192,41 +171,35 @@ fun ProductListItem(
                         overflow = TextOverflow.Ellipsis
                     )
 
-                    // Allergens (optional warning)
-                    if (productUI.allergens.isNotEmpty()) {
+                    productUI.allergensInfo?.tags?.takeIf { it.isNotEmpty() }?.let { allergens ->
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "Contains: ${productUI.allergens.joinToString(", ")}",
+                            text = "Contains: ${allergens.joinToString(", ")}",
                             style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
                             color = MaterialTheme.colorScheme.error,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.semantics {
-                                contentDescription =
-                                    "Allergens: ${productUI.allergens.joinToString(", ")}"
-                            }
+                            modifier = Modifier.semantics { contentDescription = "Allergens: ${allergens.joinToString(", ")}" }
                         )
                     }
                 }
 
-                // Nutrition info
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(start = 8.dp)
                 ) {
-                    // Nutrition grade
-                    productUI.nutritionGrade?.let { grade ->
+                    productUI.nutritionInfo?.grade?.let { grade ->
                         Box(
                             modifier = Modifier
                                 .size(40.dp)
                                 .clip(CircleShape)
                                 .background(
                                     color = when (grade.lowercase()) {
-                                        "a" -> Color(0xFF00C853) // Green
-                                        "b" -> Color(0xFF76FF03) // Light Green
-                                        "c" -> Color(0xFFFFC107) // Amber
-                                        "d" -> Color(0xFFFF5722) // Orange
-                                        "e" -> Color(0xFFFF0000) // Red
+                                        "a" -> Color(0xFF00C853)
+                                        "b" -> Color(0xFF76FF03)
+                                        "c" -> Color(0xFFFFC107)
+                                        "d" -> Color(0xFFFF5722)
+                                        "e" -> Color(0xFFFF0000)
                                         else -> MaterialTheme.colorScheme.onSurfaceVariant
                                     }
                                 )
@@ -248,8 +221,7 @@ fun ProductListItem(
                         }
                     }
 
-                    // Nutrition score
-                    productUI.nutritionScore?.let { score ->
+                    productUI.nutritionInfo?.score?.let { score ->
                         Spacer(modifier = Modifier.height(8.dp))
                         Box(
                             modifier = Modifier
@@ -265,7 +237,7 @@ fun ProductListItem(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = score.toString(),
+                                text = score,
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Medium
@@ -295,10 +267,7 @@ private fun ProductListItemPreviewA() {
     KnowYourIngredientsTheme {
         ProductListItem(
             productUI = ProductUI.fromDomain(
-                productPreview.copy(
-                    nutritionGrade = "A",
-                    nutritionScore = 5
-                )
+                productPreview.copy(nutritionInfo = productPreview.nutritionInfo?.copy(grade = "A", score = 5))
             ),
             onClick = { /* No-op */ }
         )
@@ -311,12 +280,7 @@ private fun ProductListItemPreviewNoNutrition() {
     KnowYourIngredientsTheme {
         ProductListItem(
             productUI = ProductUI.fromDomain(
-                productPreview.copy(
-                    nutritionGrade = null,
-                    nutritionScore = null,
-                    quantity = null,
-                    additivesN = null
-                )
+                productPreview.copy(nutritionInfo = null, additivesInfo = null, quantity = null)
             ),
             onClick = { /* No-op */ }
         )

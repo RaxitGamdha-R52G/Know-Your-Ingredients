@@ -21,26 +21,25 @@ import kotlin.random.Random
 @Composable
 fun ProductListScreen(
     state: ProductListState,
+    onProductClick: (ProductUI) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (state.isLoading) {
         Box(
-            modifier = modifier
-                .fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
     } else {
         LazyColumn(
-            modifier = modifier
-                .fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(state.products) { productUi ->
                 ProductListItem(
                     productUI = productUi,
-                    onClick = {/* TODO */ }
+                    onClick = { onProductClick(productUi) }
                 )
             }
         }
@@ -55,18 +54,18 @@ private fun ProductListScreenPreview() {
         ProductListScreen(
             state = ProductListState(
                 isLoading = false,
-                products = (1..100).map {
+                products = (1..10).map {
                     ProductUI.fromDomain(
                         productPreview.copy(
                             productName = "Product $it",
-                            nutritionGrade = listOf<String>("A", "B", "C", "D", "E")
-                                [
-                                Random.nextInt(0, 5)
-                            ]
+                            nutritionInfo = productPreview.nutritionInfo?.copy(
+                                grade = listOf("A", "B", "C", "D", "E").random()
+                            )
                         )
                     )
                 }
-            )
+            ),
+            onProductClick = { /* No-op */ }
         )
     }
 }

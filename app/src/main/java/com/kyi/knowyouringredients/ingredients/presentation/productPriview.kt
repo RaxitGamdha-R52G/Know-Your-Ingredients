@@ -1,11 +1,15 @@
 package com.kyi.knowyouringredients.ingredients.presentation
 
+import com.kyi.knowyouringredients.ingredients.domain.models.AdditivesInfo
+import com.kyi.knowyouringredients.ingredients.domain.models.AllergensInfo
+import com.kyi.knowyouringredients.ingredients.domain.models.CategoriesInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.Ingredient
 import com.kyi.knowyouringredients.ingredients.domain.models.Nutriments
+import com.kyi.knowyouringredients.ingredients.domain.models.NutritionInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.Packaging
 import com.kyi.knowyouringredients.ingredients.domain.models.Product
 
-// Internal preview data in domain model form
+// Internal preview data in domain model form (sharded)
 internal val productPreview = Product(
     code = "3017620422003",
     productName = "Nutella",
@@ -123,24 +127,38 @@ internal val productPreview = Product(
         sugarsUnit = "g",
         proteinsUnit = "g",
         saltUnit = "g",
-        novaGroup100g = 4,
-        nutritionScoreFr100g = 26, // From API's ecoscore_data
-        carbonFootprint100g = 135.0, // Estimated from previous data
+        nutritionScoreFr100g = 26,
+        carbonFootprint100g = 135.0,
         fruitsVeggiesNuts100g = 13.0
     ),
-    nutritionGrade = "e", // From API's nutrition_grade_fr (assumed from score)
-    nutritionScore = 26, // From API's nutrition_score_fr_100g (assumed)
-    additivesN = 2,
-    additivesTags = listOf("en:e322", "en:e322i"),
-    allergensTags = listOf("en:milk", "en:nuts", "en:soybeans"),
-    categoriesTags = listOf(
-        "en:breakfasts",
-        "en:spreads",
-        "en:sweet-spreads",
-        "fr:pates-a-tartiner",
-        "en:hazelnut-spreads",
-        "en:chocolate-spreads",
-        "en:cocoa-and-hazelnuts-spreads"
+    nutritionInfo = NutritionInfo(
+        grade = "e",
+        score = 26,
+        nutrientLevels = mapOf(
+            "fat" to "high",
+            "saturated-fat" to "high",
+            "sugars" to "high",
+            "salt" to "low"
+        ),
+        novaGroup = 4
+    ),
+    additivesInfo = AdditivesInfo(
+        count = 2,
+        tags = listOf("en:e322", "en:e322i")
+    ),
+    allergensInfo = AllergensInfo(
+        tags = listOf("en:milk", "en:nuts", "en:soybeans")
+    ),
+    categoriesInfo = CategoriesInfo(
+        tags = listOf(
+            "en:breakfasts",
+            "en:spreads",
+            "en:sweet-spreads",
+            "fr:pates-a-tartiner",
+            "en:hazelnut-spreads",
+            "en:chocolate-spreads",
+            "en:cocoa-and-hazelnuts-spreads"
+        )
     ),
     quantity = "400 g",
     servingSize = "15 g"
