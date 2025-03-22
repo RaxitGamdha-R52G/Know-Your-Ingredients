@@ -9,9 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kyi.knowyouringredients.ingredients.presentation.product_list.ProductListAction
+import com.kyi.knowyouringredients.ingredients.presentation.product_list.ProductListScreen
+import com.kyi.knowyouringredients.ingredients.presentation.product_list.ProductListViewModel
 import com.kyi.knowyouringredients.ui.theme.KnowYourIngredientsTheme
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +26,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             KnowYourIngredientsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    val viewModel = koinViewModel<ProductListViewModel>()
+                    val state by viewModel.state.collectAsStateWithLifecycle()
+                    ProductListScreen(
+                        state = state,
+                        onProductClick = { viewModel.onAction(ProductListAction.OnProductClicked(it)) },
+                        onLoadMore = { viewModel.onAction(ProductListAction.OnLoadMore) },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

@@ -30,27 +30,34 @@ fun ProductListScreen(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(state.products) { productUi ->
-                ProductListItem(
-                    productUI = productUi,
-                    onClick = { onProductClick(productUi) }
-                )
-            }
-            if (state.page * state.pageSize < state.totalCount) {
-                item {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Button(onClick = onLoadMore) {
-                            Text("Load More")
-                        }
-                        if (state.isLoading) {
-                            CircularProgressIndicator(modifier = Modifier.padding(top = 8.dp))
+        if (state.products.isEmpty() && !state.isLoading) {
+            Text(
+                text = "No products found",
+                modifier = Modifier.align(Alignment.Center)
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(state.products) { productUi ->
+                    ProductListItem(
+                        productUI = productUi,
+                        onClick = { onProductClick(productUi) }
+                    )
+                }
+                if (state.page * state.pageSize < state.totalCount) {
+                    item {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Button(onClick = onLoadMore) {
+                                Text("Load More")
+                            }
+                            if (state.isLoading) {
+                                CircularProgressIndicator(modifier = Modifier.padding(top = 8.dp))
+                            }
                         }
                     }
                 }
@@ -86,39 +93,3 @@ private fun ProductListScreenPreview() {
         )
     }
 }
-
-
-//@Composable
-//fun ProductListScreen(
-//    state: ProductListState,
-//    onProductClick: (ProductUI) -> Unit,
-//    onLoadMore: () -> Unit,
-//    modifier: Modifier = Modifier
-//) {
-//    if (state.isLoading && state.products.isEmpty()) {
-//        Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-//            CircularProgressIndicator()
-//        }
-//    } else {
-//        LazyColumn(
-//            modifier = modifier.fillMaxSize(),
-//            verticalArrangement = Arrangement.spacedBy(8.dp)
-//        ) {
-//            items(state.products) { productUi ->
-//                ProductListItem(
-//                    productUI = productUi,
-//                    onClick = { onProductClick(productUi) }
-//                )
-//            }
-//            if (state.page * state.pageSize < state.totalCount) {
-//                item {
-//                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-//                        Button(onClick = onLoadMore) {
-//                            Text("Load More")
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}

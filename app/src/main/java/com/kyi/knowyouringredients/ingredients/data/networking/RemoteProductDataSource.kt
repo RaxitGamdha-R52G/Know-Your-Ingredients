@@ -35,7 +35,7 @@ class RemoteProductDataSource(
                 )
                 parameter("page", page.toString())
                 parameter("page_size", pageSize.toString())
-                brands?.let { parameter("brands_tags", it) }
+                brands?.let { parameter("brands", it) }
                 categories?.let { parameter("categories_tags", it) }
                 nutritionGrade?.let { parameter("nutrition_grades_tags", it) }
             }
