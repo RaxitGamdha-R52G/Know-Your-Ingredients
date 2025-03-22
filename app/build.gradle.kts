@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     id("com.google.devtools.ksp")
 }
 
@@ -15,7 +16,6 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,7 +28,6 @@ android {
             )
             buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.org/api/v2/\"")
         }
-
         debug {
             buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.net/api/v2/\"")
         }
@@ -47,19 +46,14 @@ android {
 }
 
 dependencies {
+    implementation(libs.slf4j.android)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.compose.core)
     implementation(libs.bundles.compose.material3)
     implementation(libs.bundles.compose.lifecycle)
-
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-
-    // Moshi JSON
-    implementation(libs.moshi)
-    implementation(libs.moshi.kotlin)
-    ksp(libs.moshi.kotlin.codegen)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
