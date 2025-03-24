@@ -16,44 +16,38 @@ data class NutrimentsUI(
     val proteins100g: String,
     val proteinsServing: String,
     val salt100g: String,
-    val saltServing: String,
-    val carbonFootprint: String,
-    val fruitsVeggiesNuts: String
+    val saltServing: String
 ) {
     companion object {
         fun fromDomain(nutriments: Nutriments?): NutrimentsUI {
             return NutrimentsUI(
-                energyKcal100g = nutriments?.energyKcal100g?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.energyKcalUnit ?: "kcal"}" }
+                energyKcal100g = nutriments?.energyKcal100g?.toDisplayableNumber()?.formatted?.let { "$it kcal" }
                     ?: "N/A",
-                energyKcalServing = nutriments?.energyKcalServing?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.energyKcalUnit ?: "kcal"}" }
+                energyKcalServing = nutriments?.energyKcalServing?.toDisplayableNumber()?.formatted?.let { "$it kcal" }
                     ?: "N/A",
-                fat100g = nutriments?.fat100g?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.fatUnit ?: "g"}" }
+                fat100g = nutriments?.fat100g?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                fatServing = nutriments?.fatServing?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.fatUnit ?: "g"}" }
+                fatServing = nutriments?.fatServing?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                saturatedFat100g = nutriments?.saturatedFat100g?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.fatUnit ?: "g"}" }
+                saturatedFat100g = nutriments?.saturatedFat100g?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                saturatedFatServing = nutriments?.saturatedFatServing?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.fatUnit ?: "g"}" }
+                saturatedFatServing = nutriments?.saturatedFatServing?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                carbohydrates100g = nutriments?.carbohydrates100g?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.carbohydratesUnit ?: "g"}" }
+                carbohydrates100g = nutriments?.carbohydrates100g?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                carbohydratesServing = nutriments?.carbohydratesServing?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.carbohydratesUnit ?: "g"}" }
+                carbohydratesServing = nutriments?.carbohydratesServing?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                sugars100g = nutriments?.sugars100g?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.sugarsUnit ?: "g"}" }
+                sugars100g = nutriments?.sugars100g?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                sugarsServing = nutriments?.sugarsServing?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.sugarsUnit ?: "g"}" }
+                sugarsServing = nutriments?.sugarsServing?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                proteins100g = nutriments?.proteins100g?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.proteinsUnit ?: "g"}" }
+                proteins100g = nutriments?.proteins100g?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                proteinsServing = nutriments?.proteinsServing?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.proteinsUnit ?: "g"}" }
+                proteinsServing = nutriments?.proteinsServing?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                salt100g = nutriments?.salt100g?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.saltUnit ?: "g"}" }
+                salt100g = nutriments?.salt100g?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A",
-                saltServing = nutriments?.saltServing?.toDisplayableNumber()?.formatted?.let { "$it ${nutriments.saltUnit ?: "g"}" }
-                    ?: "N/A",
-                carbonFootprint = nutriments?.carbonFootprint100g?.toDisplayableNumber()?.formatted?.let { "$it g CO2e" }
-                    ?: "N/A",
-                fruitsVeggiesNuts = nutriments?.fruitsVeggiesNuts100g?.toDisplayableNumber()?.formatted?.let { "$it%" }
+                saltServing = nutriments?.saltServing?.toDisplayableNumber()?.formatted?.let { "$it g" }
                     ?: "N/A"
             )
         }

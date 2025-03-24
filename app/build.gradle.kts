@@ -26,10 +26,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.org/api/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.org/api/v2/\"")
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://world.openfoodfacts.net/api/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.net/api/v2/\"")
         }
     }
     compileOptions {
@@ -46,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.coil.compose)
     implementation(libs.slf4j.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.koin)

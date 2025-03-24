@@ -7,7 +7,10 @@ import com.kyi.knowyouringredients.ingredients.data.networking.dto.ProductDto
 import com.kyi.knowyouringredients.ingredients.domain.models.AdditivesInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.AllergensInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.CategoriesInfo
+import com.kyi.knowyouringredients.ingredients.domain.models.EcoScoreInfo
+import com.kyi.knowyouringredients.ingredients.domain.models.ImageInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.Ingredient
+import com.kyi.knowyouringredients.ingredients.domain.models.LabelsInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.Nutriments
 import com.kyi.knowyouringredients.ingredients.domain.models.NutritionInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.Packaging
@@ -38,23 +41,28 @@ fun ProductDto.toProduct(): Product {
             tags = categoriesTags ?: emptyList()
         ).takeIf { it.tags.isNotEmpty() },
         quantity = quantity,
-        servingSize = servingSize
+        servingSize = servingSize,
+        labelsInfo = LabelsInfo(
+            tags = labelsTags ?: emptyList()
+        ).takeIf { it.tags.isNotEmpty() },
+        ecoScoreInfo = EcoScoreInfo(
+            grade = ecoscoreGrade,
+            score = ecoscoreScore
+        ).takeIf { it.grade != null || it.score != null },
+        imageInfo = ImageInfo(
+            mainImageUrl = imageUrl,
+            frontImageUrl = imageFrontUrl,
+            frontThumbUrl = imageFrontThumbUrl
+        ).takeIf { it.mainImageUrl != null || it.frontImageUrl != null || it.frontThumbUrl != null }
     )
 }
 
 fun PackagingDto.toPackaging(): Packaging {
-    val (quantityValue, quantityUnit) = quantityPerUnit?.let {
-        val parts = it.split(" ", limit = 2)
-        if (parts.size == 2) parts[0] to parts[1] else it to "g"
-    } ?: ("0" to "g")
     return Packaging(
         material = material,
         numberOfUnits = numberOfUnits ?: "1",
-        quantityValue = quantityValue,
-        quantityUnit = quantityUnit,
         shape = shape,
-        recycling = recycling,
-        weightMeasured = weightMeasured
+        recycling = recycling
     )
 }
 
@@ -64,14 +72,7 @@ fun IngredientDto.toIngredient(): Ingredient {
         name = text ?: "",
         isVegan = vegan,
         isVegetarian = vegetarian,
-        percent = percent,
         percentEstimate = percentEstimate,
-        percentMin = percentMin,
-        percentMax = percentMax,
-        ciqualFoodCode = ciqualFoodCode,
-        ecobalyseCode = null, // Not in API response
-        fromPalmOil = fromPalmOil,
-        isInTaxonomy = null, // Not in API response
         subIngredients = subIngredients?.map { it.toIngredient() } ?: emptyList()
     )
 }
@@ -91,15 +92,21 @@ fun NutrimentsDto.toNutriments(): Nutriments {
         carbohydratesServing = carbohydratesServing,
         sugarsServing = sugarsServing,
         proteinsServing = proteinsServing,
-        saltServing = saltServing,
-        energyKcalUnit = energyKcalUnit,
-        fatUnit = fatUnit,
-        carbohydratesUnit = carbohydratesUnit,
-        sugarsUnit = sugarsUnit,
-        proteinsUnit = proteinsUnit,
-        saltUnit = saltUnit,
-        nutritionScoreFr100g = nutritionScoreFr100g,
-        carbonFootprint100g = carbonFootprint100g,
-        fruitsVeggiesNuts100g = fruitsVeggiesNuts100g
+        saltServing = saltServing
     )
 }
+
+//fun EcoScoreInfoDto.toEcoScoreInfo(): EcoScoreInfo {
+//    return EcoScoreInfo(
+//        grade = grade,
+//        score = score
+//    )
+//}
+//
+//fun ImageInfoDto.toImageInfo(): ImageInfo {
+//    return ImageInfo(
+//        mainImageUrl = mainImageUrl,
+//        frontImageUrl = frontImageUrl,
+//        frontThumbUrl = frontThumbUrl
+//    )
+//}

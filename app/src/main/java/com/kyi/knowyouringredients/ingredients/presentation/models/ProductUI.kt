@@ -14,7 +14,10 @@ data class ProductUI(
     val allergensInfo: AllergensInfoUI? = null,
     val categoriesInfo: CategoriesInfoUI? = null,
     val quantity: String? = null,
-    val servingSize: String? = null
+    val servingSize: String? = null,
+    val labelsInfo: LabelsInfoUI? = null,
+    val ecoScoreInfo: EcoScoreInfoUI? = null,
+    val imageInfo: ImageInfoUI? = null
 ) {
     companion object {
         fun fromDomain(product: Product): ProductUI {
@@ -30,7 +33,10 @@ data class ProductUI(
                 allergensInfo = product.allergensInfo?.let { AllergensInfoUI.fromDomain(it) },
                 categoriesInfo = product.categoriesInfo?.let { CategoriesInfoUI.fromDomain(it) },
                 quantity = product.quantity,
-                servingSize = product.servingSize
+                servingSize = product.servingSize,
+                labelsInfo = product.labelsInfo?.let { LabelsInfoUI.fromDomain(it) },
+                ecoScoreInfo = product.ecoScoreInfo?.let { EcoScoreInfoUI.fromDomain(it) },
+                imageInfo = product.imageInfo?.let { ImageInfoUI.fromDomain(it) }
             )
         }
     }

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Know Your Ingredients</string>
+    <string name="bad_request">Bad request</string>
+    <string name="unauthorized">Unauthorized access</string>
+    <string name="forbidden">Access forbidden</string>
+    <string name="not_found">Resource not found</string>
+    <string name="request_timeout">Request timed out</string>
+    <string name="too_many_requests">Too many requests</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="server_error">Server error</string>
+    <string name="serialization_error">Data processing error</string>
+    <string name="unknown_error">Something went wrong. Please try again later.</string>
+    <string name="invalid_url">Invalid URL provided</string> <!-- Added -->
 </resources>

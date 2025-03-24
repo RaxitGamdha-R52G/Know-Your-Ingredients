@@ -8,7 +8,6 @@ data class IngredientUI(
     val isVegan: String,
     val isVegetarian: String,
     val percent: String,
-    val fromPalmOil: String,
     val subIngredients: List<IngredientUI> = emptyList()
 ) {
     companion object {
@@ -19,11 +18,8 @@ data class IngredientUI(
                 isVegan = ingredient.isVegan?.replaceFirstChar { it.uppercase() } ?: "Unknown",
                 isVegetarian = ingredient.isVegetarian?.replaceFirstChar { it.uppercase() }
                     ?: "Unknown",
-                percent = ingredient.percent?.toDisplayableNumber()?.formatted?.let { "$it%" }
-                    ?: ingredient.percentEstimate?.toDisplayableNumber()?.formatted?.let { "$it%" }
+                percent = ingredient.percentEstimate?.toDisplayableNumber()?.formatted?.let { "$it%" }
                     ?: "N/A",
-                fromPalmOil = ingredient.fromPalmOil?.let { if (it.lowercase() == "yes") "Yes" else "No" }
-                    ?: "No",
                 subIngredients = ingredient.subIngredients.map { fromDomain(it) }
             )
         }

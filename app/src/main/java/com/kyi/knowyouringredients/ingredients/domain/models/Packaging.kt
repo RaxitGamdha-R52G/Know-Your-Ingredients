@@ -5,11 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Packaging(
-    @SerialName("material") val material: String?,
-    @SerialName("number_of_units") val numberOfUnits: String? = "1",
-    @SerialName("quantity_per_unit_value") val quantityValue: String? = "0",
-    @SerialName("quantity_per_unit_unit") val quantityUnit: String? = "g",
+    @SerialName("material") val material: String? = null,
     @SerialName("shape") val shape: String? = null,
     @SerialName("recycling") val recycling: String? = null,
-    @SerialName("weight_measured") val weightMeasured: Double? = null
+    @SerialName("number_of_units") val numberOfUnits: String? = "1"
 )

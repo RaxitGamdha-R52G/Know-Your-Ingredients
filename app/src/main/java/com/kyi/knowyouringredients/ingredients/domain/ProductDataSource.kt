@@ -17,8 +17,8 @@ interface ProductDataSource {
         barcode: String,
         fields: String,
         productType: String,
-        countryCode: String,
-        languageCode: String,
-        tagsLanguageCode: String
+//        countryCode: String,
+//        languageCode: String,
+//        tagsLanguageCode: String
     ): Result<Product, NetworkError>
 }

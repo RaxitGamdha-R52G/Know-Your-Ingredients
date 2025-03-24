@@ -20,5 +20,11 @@ data class ProductDto(
     @SerialName("allergens_tags") val allergensTags: List<String>? = null,
     @SerialName("categories_tags") val categoriesTags: List<String>? = null,
     @SerialName("quantity") val quantity: String? = null,
-    @SerialName("serving_size") val servingSize: String? = null
+    @SerialName("serving_size") val servingSize: String? = null,
+    @SerialName("labels_tags") val labelsTags: List<String>? = null,
+    @SerialName("ecoscore_grade") val ecoscoreGrade: String? = null,
+    @SerialName("ecoscore_score") val ecoscoreScore: Int? = null,
+    @SerialName("image_url") val imageUrl: String? = null,
+    @SerialName("image_front_url") val imageFrontUrl: String? = null,
+    @SerialName("image_front_thumb_url") val imageFrontThumbUrl: String? = null
 )

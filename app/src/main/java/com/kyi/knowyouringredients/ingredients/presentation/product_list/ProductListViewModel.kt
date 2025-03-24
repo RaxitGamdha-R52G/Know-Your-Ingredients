@@ -2,73 +2,92 @@ package com.kyi.knowyouringredients.ingredients.presentation.product_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kyi.knowyouringredients.core.domain.util.onError
-import com.kyi.knowyouringredients.core.domain.util.onSuccess
+import com.kyi.knowyouringredients.core.domain.util.Result
 import com.kyi.knowyouringredients.ingredients.domain.ProductDataSource
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ProductListViewModel(
     private val productDataSource: ProductDataSource
 ) : ViewModel() {
+
     private val _state = MutableStateFlow(ProductListState())
-    val state = _state.onStart { loadProducts() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProductListState())
+    val state: StateFlow<ProductListState> get() = _state.asStateFlow()
+
+    private val _events = Channel<ProductListEvent>()
+    val events = _events.receiveAsFlow()
 
     fun onAction(action: ProductListAction) {
         when (action) {
-            is ProductListAction.OnProductClicked -> {
-                _state.update { it.copy(selectedProduct = action.productUI) }
-            }
-
-            is ProductListAction.OnSearch -> {
+            is ProductListAction.Search -> {
+                _state.value = _state.value.copy(isLoading = true)
                 loadProducts(
                     brands = action.brands,
                     categories = action.categories,
-                    nutritionGrade = action.nutritionGrade
+                    nutritionGrade = action.nutritionGrade,
+                    page = 1,
+                    append = false
                 )
             }
 
-            is ProductListAction.OnLoadMore -> {
-                loadProducts(page = _state.value.page + 1, append = true)
+            is ProductListAction.LoadMore -> {
+                _state.value = _state.value.copy(isLoading = true)
+                loadProducts(
+                    brands = _state.value.brands,
+                    categories = _state.value.categories,
+                    nutritionGrade = _state.value.nutritionGrade,
+                    page = _state.value.page + 1,
+                    append = true
+                )
+            }
+
+            is ProductListAction.OnProductClicked -> {
+                viewModelScope.launch {
+                    _events.send(ProductListEvent.NavigateToProductDetail(action.productUI))
+                }
             }
         }
     }
 
     private fun loadProducts(
-        brands: String? = "nestlé",
-        categories: String? = null,
-        nutritionGrade: String? = null,
-        page: Int = 1,
-        append: Boolean = false
+        brands: String?,
+        categories: String?,
+        nutritionGrade: String?,
+        page: Int,
+        append: Boolean
     ) {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            productDataSource.getProducts(
+            val result = productDataSource.getProducts(
                 brands = brands,
                 categories = categories,
                 nutritionGrade = nutritionGrade,
                 page = page,
                 pageSize = _state.value.pageSize
-            ).onSuccess { (products, totalCount) ->
-                val productUIs = products.map { ProductUI.fromDomain(it) }
-                println("Fetched ${products.size} products, totalCount: $totalCount for brands: $brands")
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        products = if (append) it.products + productUIs else productUIs,
+            )
+            when (result) {
+                is Result.Success -> {
+                    val (products, totalCount) = result.data
+                    val productUIs = products.map { ProductUI.fromDomain(it) }
+                    _state.value = _state.value.copy(
+                        products = if (append) _state.value.products + productUIs else productUIs,
+                        totalCount = totalCount,
                         page = page,
-                        totalCount = totalCount
+                        isLoading = false,
+                        brands = brands,
+                        categories = categories,
+                        nutritionGrade = nutritionGrade
                     )
                 }
-            }.onError { error ->
-                println("Error fetching products: $error")
-                _state.update { it.copy(isLoading = false) }
+
+                is Result.Error -> {
+                    _state.value = _state.value.copy(isLoading = false)
+                    _events.send(ProductListEvent.Error(result.error))
+                }
             }
         }
     }

@@ -25,21 +25,22 @@ class RemoteProductDataSource(
         page: Int,
         pageSize: Int
     ): Result<Pair<List<Product>, Int>, NetworkError> {
-        return safeCall<ProductsResponseDto> {
-            httpClient.get(
-                urlString = constructUrl("/search")
-            ) {
-                parameter(
-                    "fields",
-                    "code,product_name,brands,packagings,ingredients,nutriments,nutrition_grade_fr,nutrition_score_fr,nova_group,nutrient_levels,additives_n,additives_tags,allergens_tags,categories_tags,quantity,serving_size"
-                )
-                parameter("page", page.toString())
-                parameter("page_size", pageSize.toString())
-                brands?.let { parameter("brands", it) }
-                categories?.let { parameter("categories_tags", it) }
-                nutritionGrade?.let { parameter("nutrition_grades_tags", it) }
+        return safeCall<ProductsResponseDto>(
+            urlProvider = { constructUrl("/search") },
+            execute = { url ->
+                httpClient.get(url) {
+                    parameter(
+                        "fields",
+                        "code,product_name,brands,packagings,ingredients,nutriments,nutrition_grade_fr,nutrition_score_fr,nova_group,nutrient_levels,additives_n,additives_tags,allergens_tags,categories_tags,quantity,serving_size"
+                    )
+                    parameter("page", page.toString())
+                    parameter("page_size", pageSize.toString())
+                    brands?.let { parameter("brands_tags", it) }
+                    categories?.let { parameter("categories_tags", it) }
+                    nutritionGrade?.let { parameter("nutrition_grades_tags", it) }
+                }
             }
-        }.map { response ->
+        ).map { response ->
             response.products.map { it.toProduct() } to response.count
         }
     }
@@ -47,22 +48,17 @@ class RemoteProductDataSource(
     override suspend fun fetchProductByBarcode(
         barcode: String,
         fields: String,
-        productType: String,
-        countryCode: String,
-        languageCode: String,
-        tagsLanguageCode: String
+        productType: String
     ): Result<Product, NetworkError> {
-        return safeCall<ProductResponseDto> {
-            httpClient.get(
-                constructUrl("product/$barcode")
-            ) {
-                parameter("fields", fields)
-                parameter("product_type", productType)
-                parameter("cc", countryCode)
-                parameter("lc", languageCode)
-                parameter("tags_lc", tagsLanguageCode)
+        return safeCall<ProductResponseDto>(
+            urlProvider = { constructUrl("product/$barcode") },
+            execute = { url ->
+                httpClient.get(url) {
+                    parameter("fields", fields)
+                    parameter("product_type", productType)
+                }
             }
-        }.map { response ->
+        ).map { response ->
             response.product.toProduct()
         }
     }
