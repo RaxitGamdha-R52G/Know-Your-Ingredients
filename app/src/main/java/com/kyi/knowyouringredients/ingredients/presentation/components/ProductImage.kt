@@ -1,45 +1,51 @@
 package com.kyi.knowyouringredients.ingredients.presentation.components
 
-import androidx.compose.foundation.background
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
 import com.kyi.knowyouringredients.R
+import org.koin.java.KoinJavaComponent.inject
 
 @Composable
 fun ProductImage(
     imageUrl: String?,
+    size: Dp = 100.dp,
     modifier: Modifier = Modifier,
-    size: Dp = 60.dp,
-    contentDescription: String = "Product image"
+    contentDescription: String? = null
 ) {
-    var imageSource by remember { mutableStateOf<Any?>(imageUrl) }
-//    val fallbackImage = R.drawable.default_img
-    val fallbackImage = R.drawable.ic_default_product
+    // Log the image URL for debugging
+    Log.d("ProductImage", "Loading image URL: $imageUrl")
 
-    AsyncImage(
-        model = imageSource ?: fallbackImage,
-        contentDescription = contentDescription,
-        modifier = modifier
-            .size(size)
-            .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.surfaceVariant),
-        alignment = Alignment.Center,
-        onState = { state ->
-            if (state is AsyncImagePainter.State.Error && imageSource != fallbackImage) {
-                imageSource = fallbackImage // Switch to fallback on error
-            }
-        }
+    val imageLoader: ImageLoader by inject(
+        clazz = ImageLoader::class.java,
     )
+
+    if (imageUrl.isNullOrBlank()) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_placeholder_image),
+            contentDescription = contentDescription ?: "Placeholder image",
+            modifier = modifier
+                .size(size),
+            contentScale = ContentScale.Fit
+        )
+    } else {
+        AsyncImage(
+            model = imageUrl,
+            imageLoader = imageLoader,
+            contentDescription = contentDescription,
+            contentScale = ContentScale.Fit,
+            modifier = modifier.size(size),
+            error = painterResource(id = R.drawable.ic_error_image),
+            placeholder = painterResource(id = R.drawable.ic_placeholder_image),
+            onError = { Log.d("ProductImage", "Error loading image: ${it.result.throwable}") }
+        )
+    }
 }

@@ -1,7 +1,9 @@
 package com.kyi.knowyouringredients.ingredients.presentation.models
 
 import com.kyi.knowyouringredients.ingredients.domain.models.Packaging
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class PackagingUI(
     val material: String,
     val numberOfUnits: String,

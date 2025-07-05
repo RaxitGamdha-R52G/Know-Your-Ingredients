@@ -1,7 +1,9 @@
 package com.kyi.knowyouringredients.ingredients.presentation.models
 
 import com.kyi.knowyouringredients.ingredients.domain.models.Ingredient
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class IngredientUI(
     val id: String,
     val name: String,

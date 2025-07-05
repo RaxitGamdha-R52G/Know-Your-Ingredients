@@ -1,14 +1,6 @@
 package com.kyi.knowyouringredients.ingredients.presentation
 
-import com.kyi.knowyouringredients.ingredients.domain.models.AdditivesInfo
-import com.kyi.knowyouringredients.ingredients.domain.models.AllergensInfo
-import com.kyi.knowyouringredients.ingredients.domain.models.CategoriesInfo
-import com.kyi.knowyouringredients.ingredients.domain.models.EcoScoreInfo
-import com.kyi.knowyouringredients.ingredients.domain.models.ImageInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.Ingredient
-import com.kyi.knowyouringredients.ingredients.domain.models.LabelsInfo
-import com.kyi.knowyouringredients.ingredients.domain.models.Nutriments
-import com.kyi.knowyouringredients.ingredients.domain.models.NutritionInfo
 import com.kyi.knowyouringredients.ingredients.domain.models.Packaging
 import com.kyi.knowyouringredients.ingredients.domain.models.Product
 
@@ -18,6 +10,8 @@ val productPreview = Product(
     brands = "Ferrero",
     quantity = "400g",
     servingSize = "15g",
+
+    // Ingredients fields
     ingredients = listOf(
         Ingredient(
             id = "en:sugar",
@@ -34,31 +28,40 @@ val productPreview = Product(
             percentEstimate = 20.0
         )
     ),
-    nutriments = Nutriments(
-        energyKcal100g = 539.0,
-        fat100g = 31.0,
-        saturatedFat100g = 11.0,
-        carbohydrates100g = 57.0,
-        sugars100g = 56.0,
-        proteins100g = 6.0,
-        salt100g = 0.11,
-        energyKcalServing = 81.0,
-        fatServing = 4.7,
-        saturatedFatServing = 1.7,
-        carbohydratesServing = 8.6,
-        sugarsServing = 8.4,
-        proteinsServing = 0.9,
-        saltServing = 0.016
-    ),
-    nutritionInfo = NutritionInfo(
-        grade = "E",
-        score = 26,
-        nutrientLevels = mapOf("fat" to "high", "sugars" to "high"),
-        novaGroup = 4
-    ),
-    additivesInfo = AdditivesInfo(count = 2, tags = listOf("en:e322", "en:e471")),
-    allergensInfo = AllergensInfo(tags = listOf("en:milk", "en:nuts")),
-    categoriesInfo = CategoriesInfo(tags = listOf("en:spreads", "en:hazelnut-spreads")),
+
+    // Nutriments fields
+    energyKcal100g = 539.0,
+    fat100g = 31.0,
+    saturatedFat100g = 11.0,
+    carbohydrates100g = 57.0,
+    sugars100g = 56.0,
+    proteins100g = 6.0,
+    salt100g = 0.11,
+    energyKcalServing = 81.0,
+    fatServing = 4.7,
+    saturatedFatServing = 1.7,
+    carbohydratesServing = 8.6,
+    sugarsServing = 8.4,
+    proteinsServing = 0.9,
+    saltServing = 0.016,
+
+    // Nutrition Info fields
+    nutritionGrade = "E",
+    nutritionScore = 26,
+    nutrientLevels = mapOf("fat" to "high", "sugars" to "high"),
+    novaGroup = 4,
+
+    // Additives Info fields
+    additivesCount = 2,
+    additivesTags = listOf("en:e322", "en:e471"),
+
+    // Allergens Info fields
+    allergensTags = listOf("en:milk", "en:nuts"),
+
+    // Categories Info fields
+    categoriesTags = listOf("en:spreads", "en:hazelnut-spreads"),
+
+    // Packaging fields
     packaging = listOf(
         Packaging(
             material = "en:plastic",
@@ -67,11 +70,16 @@ val productPreview = Product(
             numberOfUnits = "1"
         )
     ),
-    labelsInfo = LabelsInfo(tags = listOf("en:gluten-free")),
-    ecoScoreInfo = EcoScoreInfo(grade = "D", score = 45),
-    imageInfo = ImageInfo(
-        mainImageUrl = "https://example.com/nutella.jpg",
-        frontImageUrl = "https://example.com/nutella_front.jpg",
-        frontThumbUrl = "https://example.com/nutella_thumb.jpg"
-    )
+
+    // Labels Info fields
+    labelsTags = listOf("en:gluten-free"),
+
+    // EcoScore Info fields
+    ecoScoreGrade = "D",
+    ecoScoreScore = 45,
+
+    // Image Info fields
+    mainImageUrl = "https://example.com/nutella.jpg",
+    smallImageUrl = "https://example.com/nutella_front.jpg",
+    frontThumbUrl = "https://example.com/nutella_thumb.jpg"
 )

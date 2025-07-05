@@ -21,4 +21,8 @@ interface ProductDataSource {
 //        languageCode: String,
 //        tagsLanguageCode: String
     ): Result<Product, NetworkError>
+
+//    suspend fun fetchProduct(
+//
+//    )
 }

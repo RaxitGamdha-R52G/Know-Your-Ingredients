@@ -10,5 +10,7 @@
     <string name="server_error">Server error</string>
     <string name="serialization_error">Data processing error</string>
     <string name="unknown_error">Something went wrong. Please try again later.</string>
-    <string name="invalid_url">Invalid URL provided</string> <!-- Added -->
+    <string name="invalid_url">Invalid URL provided</string>
+    <string name="load_more">Load More</string>
+    <string name="no_products_found">No Products Found</string> <!-- Added -->
 </resources>

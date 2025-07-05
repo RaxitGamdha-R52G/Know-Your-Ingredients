@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,201 +32,219 @@ import androidx.compose.ui.unit.dp
 import com.kyi.knowyouringredients.ingredients.presentation.components.ProductImage
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 import com.kyi.knowyouringredients.ingredients.presentation.productPreview
+import com.kyi.knowyouringredients.ingredients.presentation.product_list.ProductListState
 import com.kyi.knowyouringredients.ui.theme.KnowYourIngredientsTheme
 
 @Composable
 fun ProductDetailScreen(
-    productUI: ProductUI,
+    state: ProductListState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ProductImage(
-                    imageUrl = productUI.imageInfo?.frontImageUrl
-                        ?: productUI.imageInfo?.mainImageUrl,
-                    size = 120.dp,
-                    contentDescription = "Product image for ${productUI.productName}"
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Column {
-                    Text(
-                        text = productUI.productName,
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = productUI.brands.joinToString(", "),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+    if (state.isLoading) {
+        Box(
+            modifier = modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
         }
-
-        item {
-            Card(
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "Product Info",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text("Barcode: ${productUI.code}", style = MaterialTheme.typography.bodyMedium)
-                    productUI.quantity?.let {
-                        Text(
-                            "Quantity: $it",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    productUI.servingSize?.let {
-                        Text(
-                            "Serving Size: $it",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                }
-            }
-        }
-
-        item {
-            Card(
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
+    } else if (state.selectedProduct != null) {
+        val productUI = state.selectedProduct
+        LazyColumn(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    productUI.nutritionInfo?.grade?.let { grade ->
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Box(
-                                modifier = Modifier
-                                    .size(60.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        color = when (grade.lowercase()) {
-                                            "a" -> Color(0xFF00C853)
-                                            "b" -> Color(0xFF76FF03)
-                                            "c" -> Color(0xFFFFC107)
-                                            "d" -> Color(0xFFFF5722)
-                                            "e" -> Color(0xFFFF0000)
-                                            else -> MaterialTheme.colorScheme.onSurfaceVariant
-                                        }
-                                    )
-                                    .border(
-                                        width = 2.dp,
-                                        color = MaterialTheme.colorScheme.outline,
-                                        shape = CircleShape
-                                    )
-                                    .padding(8.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = grade.uppercase(),
-                                    style = MaterialTheme.typography.titleLarge,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onPrimary
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text("Nutrition Grade", style = MaterialTheme.typography.labelMedium)
-                        }
-                    }
-
-                    productUI.ecoScoreInfo?.grade?.let { ecoGrade ->
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Box(
-                                modifier = Modifier
-                                    .size(60.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        color = when (ecoGrade.lowercase()) {
-                                            "a" -> Color(0xFF00C853)
-                                            "b" -> Color(0xFF76FF03)
-                                            "c" -> Color(0xFFFFC107)
-                                            "d" -> Color(0xFFFF5722)
-                                            "e" -> Color(0xFFFF0000)
-                                            else -> MaterialTheme.colorScheme.onSurfaceVariant
-                                        }
-                                    )
-                                    .border(
-                                        width = 2.dp,
-                                        color = MaterialTheme.colorScheme.outline,
-                                        shape = CircleShape
-                                    )
-                                    .padding(8.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = ecoGrade.uppercase(),
-                                    style = MaterialTheme.typography.titleLarge,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onPrimary
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text("EcoScore", style = MaterialTheme.typography.labelMedium)
-                        }
+                    ProductImage(
+                        imageUrl = productUI.imageUrl,
+                        size = 120.dp,
+                        contentDescription = "Product image for ${productUI.productName}"
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Text(
+                            text = productUI.productName,
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = productUI.brands.joinToString(", "),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
             }
-        }
 
-        item {
-            Card(
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "Ingredients",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    if (productUI.ingredients.isEmpty()) {
-                        Text("No ingredients listed", style = MaterialTheme.typography.bodyMedium)
-                    } else {
-                        productUI.ingredients.forEach { ingredient ->
+            item {
+                Card(
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Product Info",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            "Barcode: ${productUI.code}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        productUI.quantity?.let {
                             Text(
-                                text = "- ${ingredient.name} (${ingredient.percent})",
+                                "Quantity: $it",
                                 style = MaterialTheme.typography.bodyMedium
                             )
-                            if (ingredient.subIngredients.isNotEmpty()) {
-                                ingredient.subIngredients.forEach { subIngredient ->
+                        }
+                        productUI.servingSize?.let {
+                            Text(
+                                "Serving Size: $it",
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        if (productUI.nutritionGrade != "N/A") {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(60.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            color = when (productUI.nutritionGrade.lowercase()) {
+                                                "a" -> Color(0xFF00C853)
+                                                "b" -> Color(0xFF76FF03)
+                                                "c" -> Color(0xFFFFC107)
+                                                "d" -> Color(0xFFFF5722)
+                                                "e" -> Color(0xFFFF0000)
+                                                else -> MaterialTheme.colorScheme.onSurfaceVariant
+                                            }
+                                        )
+                                        .border(
+                                            width = 2.dp,
+                                            color = MaterialTheme.colorScheme.outline,
+                                            shape = CircleShape
+                                        )
+                                        .padding(8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
                                     Text(
-                                        text = "  * ${subIngredient.name}",
-                                        style = MaterialTheme.typography.bodySmall
+                                        text = productUI.nutritionGrade,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onPrimary
                                     )
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    "Nutrition Grade",
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
+                        }
+
+                        if (productUI.ecoScoreGrade != "N/A") {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(60.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            color = when (productUI.ecoScoreGrade.lowercase()) {
+                                                "a" -> Color(0xFF00C853)
+                                                "b" -> Color(0xFF76FF03)
+                                                "c" -> Color(0xFFFFC107)
+                                                "d" -> Color(0xFFFF5722)
+                                                "e" -> Color(0xFFFF0000)
+                                                else -> MaterialTheme.colorScheme.onSurfaceVariant
+                                            }
+                                        )
+                                        .border(
+                                            width = 2.dp,
+                                            color = MaterialTheme.colorScheme.outline,
+                                            shape = CircleShape
+                                        )
+                                        .padding(8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = productUI.ecoScoreGrade,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onPrimary
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text("EcoScore", style = MaterialTheme.typography.labelMedium)
+                            }
+                        }
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Ingredients",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        if (productUI.ingredients.isEmpty()) {
+                            Text(
+                                "No ingredients listed",
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        } else {
+                            productUI.ingredients.forEach { ingredient ->
+                                Text(
+                                    text = "- ${ingredient.name} (${ingredient.percent})",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                if (ingredient.subIngredients.isNotEmpty()) {
+                                    ingredient.subIngredients.forEach { subIngredient ->
+                                        Text(
+                                            text = "  * ${subIngredient.name}",
+                                            style = MaterialTheme.typography.bodySmall
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
 
-        productUI.nutriments?.let { nutriments ->
             item {
                 Card(
                     shape = RoundedCornerShape(12.dp),
@@ -240,82 +259,82 @@ fun ProductDetailScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            "Energy: ${nutriments.energyKcal100g} / ${nutriments.energyKcalServing}",
+                            "Energy: ${productUI.energyKcal100g} / ${productUI.energyKcalServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Fat: ${nutriments.fat100g} / ${nutriments.fatServing}",
+                            "Fat: ${productUI.fat100g} / ${productUI.fatServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Saturated Fat: ${nutriments.saturatedFat100g} / ${nutriments.saturatedFatServing}",
+                            "Saturated Fat: ${productUI.saturatedFat100g} / ${productUI.saturatedFatServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Carbohydrates: ${nutriments.carbohydrates100g} / ${nutriments.carbohydratesServing}",
+                            "Carbohydrates: ${productUI.carbohydrates100g} / ${productUI.carbohydratesServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Sugars: ${nutriments.sugars100g} / ${nutriments.sugarsServing}",
+                            "Sugars: ${productUI.sugars100g} / ${productUI.sugarsServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Proteins: ${nutriments.proteins100g} / ${nutriments.proteinsServing}",
+                            "Proteins: ${productUI.proteins100g} / ${productUI.proteinsServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Salt: ${nutriments.salt100g} / ${nutriments.saltServing}",
+                            "Salt: ${productUI.salt100g} / ${productUI.saltServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
             }
-        }
 
-        item {
-            Card(
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "Additional Info",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    productUI.additivesInfo?.let {
+            item {
+                Card(
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            "Additives: ${it.tags.joinToString(", ")} (${it.count})",
-                            style = MaterialTheme.typography.bodyMedium
+                            text = "Additional Info",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.SemiBold
                         )
-                    }
-                    productUI.allergensInfo?.let {
-                        Text(
-                            "Allergens: ${it.tags.joinToString(", ")}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    productUI.categoriesInfo?.let {
-                        Text(
-                            "Categories: ${it.tags.joinToString(", ")}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    productUI.labelsInfo?.let {
-                        Text(
-                            "Labels: ${it.tags.joinToString(", ")}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    productUI.packaging.takeIf { it.isNotEmpty() }?.let {
-                        Text("Packaging:", style = MaterialTheme.typography.bodyMedium)
-                        it.forEach { pkg ->
+                        Spacer(modifier = Modifier.height(8.dp))
+                        if (productUI.additivesTags.isNotEmpty()) {
                             Text(
-                                "  - ${pkg.material}, ${pkg.numberOfUnits} units, ${pkg.recycling}",
-                                style = MaterialTheme.typography.bodySmall
+                                "Additives: ${productUI.additivesTags.joinToString(", ")} (${productUI.additivesCount})",
+                                style = MaterialTheme.typography.bodyMedium
                             )
+                        }
+                        if (productUI.allergensTags.isNotEmpty()) {
+                            Text(
+                                "Allergens: ${productUI.allergensTags.joinToString(", ")}",
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                        if (productUI.categoriesTags.isNotEmpty()) {
+                            Text(
+                                "Categories: ${productUI.categoriesTags.joinToString(", ")}",
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                        if (productUI.labelsTags.isNotEmpty()) {
+                            Text(
+                                "Labels: ${productUI.labelsTags.joinToString(", ")}",
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                        if (productUI.packaging.isNotEmpty()) {
+                            Text("Packaging:", style = MaterialTheme.typography.bodyMedium)
+                            productUI.packaging.forEach { pkg ->
+                                Text(
+                                    "  - ${pkg.material}, ${pkg.numberOfUnits} units, ${pkg.recycling}",
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
                         }
                     }
                 }
@@ -329,7 +348,9 @@ fun ProductDetailScreen(
 private fun ProductDetailScreenPreview() {
     KnowYourIngredientsTheme {
         ProductDetailScreen(
-            productUI = ProductUI.fromDomain(productPreview)
+            state = ProductListState(
+                selectedProduct = ProductUI.fromDomain(productPreview)
+            )
         )
     }
 }

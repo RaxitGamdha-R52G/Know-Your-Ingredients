@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.bundles.compose.core)
     implementation(libs.bundles.compose.material3)
     implementation(libs.bundles.compose.lifecycle)
+    implementation(libs.androidx.navigation.compose)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

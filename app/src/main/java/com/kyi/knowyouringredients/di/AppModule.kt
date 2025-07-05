@@ -11,6 +11,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {
+    includes(imageModule)
     single { HttpClientFactory.create(CIO.create()) }
     singleOf(::RemoteProductDataSource) // Define RemoteProductDataSource as a singleton
     single<ProductDataSource> { // Replace direct binding with repository

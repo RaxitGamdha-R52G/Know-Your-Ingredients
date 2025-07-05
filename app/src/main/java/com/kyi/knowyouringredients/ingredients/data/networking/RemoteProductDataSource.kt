@@ -31,7 +31,7 @@ class RemoteProductDataSource(
                 httpClient.get(url) {
                     parameter(
                         "fields",
-                        "code,product_name,brands,packagings,ingredients,nutriments,nutrition_grade_fr,nutrition_score_fr,nova_group,nutrient_levels,additives_n,additives_tags,allergens_tags,categories_tags,quantity,serving_size"
+                        "code,product_name,brands,packagings,ingredients,nutriments,nutrition_grade_fr,nutrition_score_fr,nova_group,nutrient_levels,additives_n,additives_tags,allergens_tags,categories_tags,quantity,serving_size,image_url,image_small_url,image_thumb_url"
                     )
                     parameter("page", page.toString())
                     parameter("page_size", pageSize.toString())
