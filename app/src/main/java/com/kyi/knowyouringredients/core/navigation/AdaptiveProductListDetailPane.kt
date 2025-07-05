@@ -1,6 +1,7 @@
 package com.kyi.knowyouringredients.core.navigation
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -29,10 +30,19 @@ fun AdaptiveProductListDetailPane(
     modifier: Modifier,
     viewModel: ProductListViewModel = koinViewModel()
 ) {
+    // Log view model instance to check for multiple instances
+    Log.d("AdaptiveProductListDetailPane", "ViewModel instance: $viewModel")
+
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context: Context = LocalContext.current
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val coroutineScope = rememberCoroutineScope()
+
+    // Log state for debugging
+    Log.d(
+        "AdaptiveProductListDetailPane", "State: products=${state.products.size}, " +
+                "page=${state.page}, totalCount=${state.totalCount}, isLoading=${state.isLoading}"
+    )
 
     // Handle system back button
     BackHandler(
@@ -72,7 +82,7 @@ fun AdaptiveProductListDetailPane(
                         }
 
                         is ProductListAction.LoadMore -> {
-                            viewModel.onAction(action)
+                            // Handled by ProductListScreen
                         }
 
                         is ProductListAction.Search -> TODO()
