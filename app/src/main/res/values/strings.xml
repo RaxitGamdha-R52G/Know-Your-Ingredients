@@ -12,5 +12,10 @@
     <string name="unknown_error">Something went wrong. Please try again later.</string>
     <string name="invalid_url">Invalid URL provided</string>
     <string name="load_more">Load More</string>
-    <string name="no_products_found">No Products Found</string> <!-- Added -->
+    <string name="no_products_found">No Products Found</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_scan">Scan</string>
+    <string name="nav_lists">Lists</string>
+    <string name="no_product_selected">No Product Selected</string>
+    <string name="nav_search">Search</string>
 </resources>

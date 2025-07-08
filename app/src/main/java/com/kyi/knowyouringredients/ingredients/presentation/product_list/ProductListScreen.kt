@@ -35,7 +35,9 @@ import kotlin.time.Duration.Companion.milliseconds
 @Composable
 fun ProductListScreen(
     state: ProductListState,
-    onAction: (ProductListAction) -> Unit
+    onAction: (ProductListAction) -> Unit,
+    innerPadding: PaddingValues = PaddingValues(0.dp),
+    modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState()
     val currentState by rememberUpdatedState(state)
@@ -73,14 +75,18 @@ fun ProductListScreen(
 
     if (state.isLoading && state.products.isEmpty()) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
     } else if (state.products.isEmpty()) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -91,7 +97,9 @@ fun ProductListScreen(
         }
     } else {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
         ) {
             LazyColumn(
                 state = listState,

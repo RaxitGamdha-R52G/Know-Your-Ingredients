@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,12 +39,15 @@ import com.kyi.knowyouringredients.ui.theme.KnowYourIngredientsTheme
 @Composable
 fun ProductDetailScreen(
     state: ProductListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit = {},
+    innerPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     if (state.isLoading) {
         Box(
             modifier = modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
@@ -53,6 +57,7 @@ fun ProductDetailScreen(
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
+                .padding(innerPadding)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -98,18 +103,18 @@ fun ProductDetailScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            "Barcode: ${productUI.code}",
+                            text = "Barcode: ${productUI.code}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         productUI.quantity?.let {
                             Text(
-                                "Quantity: $it",
+                                text = "Quantity: $it",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
                         productUI.servingSize?.let {
                             Text(
-                                "Serving Size: $it",
+                                text = "Serving Size: $it",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -162,7 +167,7 @@ fun ProductDetailScreen(
                                 }
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
-                                    "Nutrition Grade",
+                                    text = "Nutrition Grade",
                                     style = MaterialTheme.typography.labelMedium
                                 )
                             }
@@ -200,7 +205,10 @@ fun ProductDetailScreen(
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(4.dp))
-                                Text("EcoScore", style = MaterialTheme.typography.labelMedium)
+                                Text(
+                                    text = "EcoScore",
+                                    style = MaterialTheme.typography.labelMedium
+                                )
                             }
                         }
                     }
@@ -222,7 +230,7 @@ fun ProductDetailScreen(
                         Spacer(modifier = Modifier.height(8.dp))
                         if (productUI.ingredients.isEmpty()) {
                             Text(
-                                "No ingredients listed",
+                                text = "No ingredients listed",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         } else {
@@ -259,31 +267,31 @@ fun ProductDetailScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            "Energy: ${productUI.energyKcal100g} / ${productUI.energyKcalServing}",
+                            text = "Energy: ${productUI.energyKcal100g} / ${productUI.energyKcalServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Fat: ${productUI.fat100g} / ${productUI.fatServing}",
+                            text = "Fat: ${productUI.fat100g} / ${productUI.fatServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Saturated Fat: ${productUI.saturatedFat100g} / ${productUI.saturatedFatServing}",
+                            text = "Saturated Fat: ${productUI.saturatedFat100g} / ${productUI.saturatedFatServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Carbohydrates: ${productUI.carbohydrates100g} / ${productUI.carbohydratesServing}",
+                            text = "Carbohydrates: ${productUI.carbohydrates100g} / ${productUI.carbohydratesServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Sugars: ${productUI.sugars100g} / ${productUI.sugarsServing}",
+                            text = "Sugars: ${productUI.sugars100g} / ${productUI.sugarsServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Proteins: ${productUI.proteins100g} / ${productUI.proteinsServing}",
+                            text = "Proteins: ${productUI.proteins100g} / ${productUI.proteinsServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            "Salt: ${productUI.salt100g} / ${productUI.saltServing}",
+                            text = "Salt: ${productUI.salt100g} / ${productUI.saltServing}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -305,33 +313,33 @@ fun ProductDetailScreen(
                         Spacer(modifier = Modifier.height(8.dp))
                         if (productUI.additivesTags.isNotEmpty()) {
                             Text(
-                                "Additives: ${productUI.additivesTags.joinToString(", ")} (${productUI.additivesCount})",
+                                text = "Additives: ${productUI.additivesTags.joinToString(", ")} (${productUI.additivesCount})",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
                         if (productUI.allergensTags.isNotEmpty()) {
                             Text(
-                                "Allergens: ${productUI.allergensTags.joinToString(", ")}",
+                                text = "Allergens: ${productUI.allergensTags.joinToString(", ")}",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
                         if (productUI.categoriesTags.isNotEmpty()) {
                             Text(
-                                "Categories: ${productUI.categoriesTags.joinToString(", ")}",
+                                text = "Categories: ${productUI.categoriesTags.joinToString(", ")}",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
                         if (productUI.labelsTags.isNotEmpty()) {
                             Text(
-                                "Labels: ${productUI.labelsTags.joinToString(", ")}",
+                                text = "Labels: ${productUI.labelsTags.joinToString(", ")}",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
                         if (productUI.packaging.isNotEmpty()) {
-                            Text("Packaging:", style = MaterialTheme.typography.bodyMedium)
+                            Text(text = "Packaging:", style = MaterialTheme.typography.bodyMedium)
                             productUI.packaging.forEach { pkg ->
                                 Text(
-                                    "  - ${pkg.material}, ${pkg.numberOfUnits} units, ${pkg.recycling}",
+                                    text = "  - ${pkg.material}, ${pkg.numberOfUnits} units, ${pkg.recycling}",
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }
@@ -350,7 +358,8 @@ private fun ProductDetailScreenPreview() {
         ProductDetailScreen(
             state = ProductListState(
                 selectedProduct = ProductUI.fromDomain(productPreview)
-            )
+            ),
+            innerPadding = PaddingValues(0.dp)
         )
     }
 }
