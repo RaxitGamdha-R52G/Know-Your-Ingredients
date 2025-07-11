@@ -23,10 +23,10 @@ class ProductRepository(
 
     override suspend fun fetchProductByBarcode(
         barcode: String,
-        fields: String,
         productType: String
     ): Result<Product, NetworkError> {
         // For now, delegate directly to remote; add local logic later
-        return remoteDataSource.fetchProductByBarcode(barcode, fields, productType)
+        return remoteDataSource.fetchProductByBarcode(barcode, productType)
     }
+
 }

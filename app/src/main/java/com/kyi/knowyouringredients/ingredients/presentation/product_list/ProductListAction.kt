@@ -4,6 +4,10 @@ import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 
 sealed interface ProductListAction {
     data class OnProductClicked(val productUI: ProductUI) : ProductListAction
+
+    data class FetchProductByBarcode(val barcode: String, val productType: String = "all") :
+        ProductListAction
+
     data class Search(
         val brands: String? = null,
         val categories: String? = null,
@@ -11,4 +15,6 @@ sealed interface ProductListAction {
     ) : ProductListAction
 
     data object LoadMore : ProductListAction
+
+//    data object ResumeScanning : ProductListAction
 }

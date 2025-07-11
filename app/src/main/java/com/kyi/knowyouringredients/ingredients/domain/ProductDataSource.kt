@@ -10,16 +10,13 @@ interface ProductDataSource {
         categories: String? = null,
         nutritionGrade: String? = null,
         page: Int = 1,
-        pageSize: Int = 24
+        pageSize: Int = 25
     ): Result<Pair<List<Product>, Int>, NetworkError>
 
     suspend fun fetchProductByBarcode(
         barcode: String,
-        fields: String,
-        productType: String,
-//        countryCode: String,
-//        languageCode: String,
-//        tagsLanguageCode: String
+        productType: String = "all"
     ): Result<Product, NetworkError>
+
 
 }

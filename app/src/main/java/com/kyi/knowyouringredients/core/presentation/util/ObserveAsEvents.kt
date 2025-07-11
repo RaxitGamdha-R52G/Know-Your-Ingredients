@@ -1,5 +1,6 @@
 package com.kyi.knowyouringredients.core.presentation.util
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.Lifecycle
@@ -18,10 +19,14 @@ fun <T> ObserveAsEvents(
 ) {
     val lifeCycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(lifeCycleOwner, key1, key2) {
+//        lifeCycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
         lifeCycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             withContext(Dispatchers.Main.immediate) {
 
-                events.collect(onEvent)
+                events.collect { event ->
+                    Log.d("ObserveAsEvents", "Collected event: $event")
+                    onEvent(event)
+                }
             }
         }
     }

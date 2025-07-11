@@ -13,7 +13,9 @@ suspend inline fun <reified T> responseToResult(
     return when (response.status.value) {
         in 200..299 -> {
             try {
-                Result.Success(response.body<T>())
+                val body = response.body<T>()
+                Result.Success(body)
+
             } catch (e: SerializationException) {
                 Result.Error(NetworkError.SERIALIZATION) // Catch malformed JSON
             } catch (e: NoTransformationFoundException) {
