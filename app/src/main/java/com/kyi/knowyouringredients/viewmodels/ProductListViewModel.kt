@@ -344,7 +344,8 @@ class ProductListViewModel(
     private val _state = MutableStateFlow(ProductListState())
     val state = _state
         .onStart { loadProducts(null, null, null, 1, false) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProductListState())
+//        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProductListState())
+        .stateIn(viewModelScope, SharingStarted.Lazily, ProductListState())
 
     private val _events = Channel<ProductListEvent>()
     val events = _events.receiveAsFlow()
@@ -427,6 +428,10 @@ class ProductListViewModel(
             checkFlashlightAvailability()
         }
     }
+//
+//    fun dismissCameraError(){
+//        _state.update { it.copy(cameraError = null) }
+//    }
 
     @OptIn(ExperimentalGetImage::class)
     fun initializeCamera(previewView: PreviewView) {

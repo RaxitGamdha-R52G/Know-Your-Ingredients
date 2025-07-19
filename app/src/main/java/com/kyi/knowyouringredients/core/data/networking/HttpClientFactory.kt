@@ -32,7 +32,7 @@ object HttpClientFactory {
                 )
             }
             install(HttpTimeout) {
-                requestTimeoutMillis = 15_000 // 15 seconds
+                requestTimeoutMillis = 20_000 // 20 seconds
                 connectTimeoutMillis = 10_000 // 10 seconds
                 socketTimeoutMillis = 10_000  // 10 seconds
             }

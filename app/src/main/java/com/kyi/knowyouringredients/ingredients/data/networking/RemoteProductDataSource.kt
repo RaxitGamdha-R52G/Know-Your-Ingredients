@@ -113,7 +113,11 @@ class RemoteProductDataSource(
                 }
             }
         ).map { response ->
-            response.product.toProduct()
+//            if(response.status != 1 || response.product == null){
+//                Result.Error(NetworkError.NOT_FOUND)
+//            }
+            response.product?.toProduct() as Product
+//            response.product.toProduct()
         }
     }
 

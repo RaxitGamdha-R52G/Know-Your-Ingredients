@@ -242,6 +242,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -262,6 +263,7 @@ import com.kyi.knowyouringredients.core.navigation.MainScreenDestination.Search
 import com.kyi.knowyouringredients.core.navigation.models.NavItem
 import com.kyi.knowyouringredients.core.presentation.util.ObserveAsEvents
 import com.kyi.knowyouringredients.core.presentation.util.toString
+import com.kyi.knowyouringredients.ingredients.presentation.components.ErrorCard
 import com.kyi.knowyouringredients.ingredients.presentation.product_detail.ProductDetailScreen
 import com.kyi.knowyouringredients.ingredients.presentation.product_list.ProductListAction
 import com.kyi.knowyouringredients.ingredients.presentation.product_list.ProductListEvent
@@ -279,6 +281,8 @@ fun MainScreen(
     viewModel: ProductListViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
+    val state = viewModel.state.collectAsStateWithLifecycle();
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     ObserveAsEvents(events = viewModel.events, key1 = viewModel) { event ->
         Log.d("MainScreen", "Received event: $event")
@@ -293,7 +297,9 @@ fun MainScreen(
                     "An error occurred"
                 }
                 if (message.isNotBlank()) {
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+//                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    Log.d("MainScreen", "Showing toast with message: $message")
+                    errorMessage = message
                 } else {
                     Log.w("MainScreen", "Empty error message, skipping toast")
                 }
@@ -391,7 +397,11 @@ fun MainScreen(
 
                             else -> {}
                         }
-                    }
+                    },
+                    state = state.value,
+                    onPermissionResult = { isGranted -> viewModel.onPermissionResult(isGranted) },
+                    onInitializeCamera = { previewView -> viewModel.initializeCamera(previewView) },
+                    onToggleFlashlight = { isEnabled -> viewModel.toggleFlashlight(isEnabled) },
                 )
             }
             composable(Lists.route) {
@@ -424,6 +434,13 @@ fun MainScreen(
                 )
             }
         }
+    }
+
+    if(errorMessage != null){
+        ErrorCard(
+            errorMessage = errorMessage.toString(),
+            onDismiss = {errorMessage = null}
+        )
     }
 }
 

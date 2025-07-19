@@ -2,6 +2,7 @@ package com.kyi.knowyouringredients.core.data.networking
 
 import com.kyi.knowyouringredients.core.domain.util.NetworkError
 import com.kyi.knowyouringredients.core.domain.util.Result
+import com.kyi.knowyouringredients.ingredients.data.networking.dto.OneProductResponseDto
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
@@ -14,7 +15,12 @@ suspend inline fun <reified T> responseToResult(
         in 200..299 -> {
             try {
                 val body = response.body<T>()
-                Result.Success(body)
+                if(body is OneProductResponseDto && (body.status != 1 || body.product == null)){
+                    Result.Error(NetworkError.NOT_FOUND)
+                }else{
+                    Result.Success(body)
+                }
+
 
             } catch (e: SerializationException) {
                 Result.Error(NetworkError.SERIALIZATION) // Catch malformed JSON
