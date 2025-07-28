@@ -1,5 +1,9 @@
 <resources>
+    <!-- General App Strings -->
     <string name="app_name">Know Your Ingredients</string>
+    <string name="back">Back</string>
+
+    <!-- Error Messages (Used Across Screens) -->
     <string name="bad_request">Bad request</string>
     <string name="unauthorized">Unauthorized access</string>
     <string name="forbidden">Access forbidden</string>
@@ -11,19 +15,27 @@
     <string name="serialization_error">Data processing error</string>
     <string name="unknown_error">Something went wrong. Please try again later.</string>
     <string name="invalid_url">Invalid URL provided</string>
-    <string name="load_more">Load More</string>
-    <string name="no_products_found">No Products Found</string>
-    <string name="nav_profile">Profile</string>
+
+    <!-- Navigation Bar Strings -->
     <string name="nav_scan">Scan</string>
-    <string name="nav_lists">Lists</string>
-    <string name="no_product_selected">No Product Selected</string>
     <string name="nav_search">Search</string>
+    <string name="nav_lists">Lists</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Scan Screen Strings -->
     <string name="camera_permission_denied">Camera permission is required to scan barcodes</string>
     <string name="request_permission">Request Permission</string>
     <string name="turn_on_flashlight">Turn On Flashlight</string>
     <string name="turn_off_flashlight">Turn Off Flashlight</string>
     <string name="cameraError">Failed to initialize camera</string>
     <string name="scan_instructions">Align the barcode within the frame to scan</string>
+
+    <!-- Search Screen Strings -->
+    <string name="load_more">Load More</string>
+    <string name="no_products_found">No Products Found</string>
+    <string name="no_product_selected">No Product Selected</string>
+
+    <!-- Product Detail Screen Strings -->
     <string name="product_info">Product Info</string>
     <string name="barcode">Barcode: %s</string>
     <string name="quantity">Quantity: %s</string>
@@ -51,5 +63,19 @@
     <string name="packaging_item">  - %1$s, %2$d units, %3$s</string>
     <string name="product_not_found">Product not found</string>
     <string name="product_image">Product image for %s</string>
-    <string name="back">Back</string>
+
+    <!-- Settings Screen Strings -->
+    <string name="settings_appearance">Appearance</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="night_mode_note">Enable dark theme for better visibility in low light.</string>
+    <string name="settings_data_source">Data Source</string>
+    <string name="data_source_food">OpenFoodFacts (Food)</string>
+    <string name="data_source_beauty">OpenBeautyFacts (Beauty)</string>
+    <string name="data_source_note">Select the data source for product information (uses India server: in.openfoodfacts.org).</string>
+    <string name="settings_language">Language</string>
+    <string name="language_english">English</string>
+    <string name="language_note">Only English is supported for now.</string>
+    <string name="settings_general">General</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="clear_cache_note">Clear local data to free up storage (not available yet).</string>
 </resources>

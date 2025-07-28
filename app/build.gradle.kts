@@ -27,13 +27,13 @@ android {
                 "proguard-rules.pro"
             )
 //            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.org/api/v2/\"")
-            buildConfigField("String", "FOOD_BASE_URL", "\"https://in.openfoodfacts.net/\"")
-            buildConfigField("String", "BEAUTY_BASE_URL", "\"https://in.openbeautyfacts.net/\"")
+            buildConfigField("String", "FOOD_BASE_URL", "\"https://in.openfoodfacts.org/\"")
+            buildConfigField("String", "BEAUTY_BASE_URL", "\"https://in.openbeautyfacts.org/\"")
         }
         debug {
 //            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.net/api/v2/\"")
-            buildConfigField("String", "FOOD_BASE_URL", "\"https://in.openfoodfacts.net/\"")
-            buildConfigField("String", "BEAUTY_BASE_URL", "\"https://in.openbeautyfacts.net/\"")
+            buildConfigField("String", "FOOD_BASE_URL", "\"https://in.openfoodfacts.org/\"")
+            buildConfigField("String", "BEAUTY_BASE_URL", "\"https://in.openbeautyfacts.org/\"")
         }
     }
     compileOptions {
