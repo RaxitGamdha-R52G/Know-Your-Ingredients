@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.kyi.knowyouringredients"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -26,10 +26,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.org/api/v2/\"")
+//            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.org/api/v2/\"")
+            buildConfigField("String", "FOOD_BASE_URL", "\"https://in.openfoodfacts.net/\"")
+            buildConfigField("String", "BEAUTY_BASE_URL", "\"https://in.openbeautyfacts.net/\"")
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.net/api/v2/\"")
+//            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.net/api/v2/\"")
+            buildConfigField("String", "FOOD_BASE_URL", "\"https://in.openfoodfacts.net/\"")
+            buildConfigField("String", "BEAUTY_BASE_URL", "\"https://in.openbeautyfacts.net/\"")
         }
     }
     compileOptions {
@@ -55,6 +59,7 @@ dependencies {
     implementation(libs.bundles.compose.material3)
     implementation(libs.bundles.compose.lifecycle)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.ui.text.google.fonts)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -74,4 +79,8 @@ dependencies {
     implementation(libs.barcode.scanning)
     // Accompanist Permissions for runtime permission handling
     implementation(libs.accompanist.permissions)
+    // Room Database
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }

@@ -105,7 +105,7 @@ data class ProductUI(
                     ?: "N/A",
 
                 // Nutrition Info fields
-                nutritionGrade = product.nutritionGrade?.uppercase() ?: "N/A",
+                nutritionGrade = product.nutritionGrade?.uppercase() ?: "U",
                 nutritionScore = product.nutritionScore?.toString() ?: "N/A",
                 nutrientLevels = product.nutrientLevels ?: emptyMap(),
                 novaGroup = product.novaGroup?.toString() ?: "N/A",
@@ -127,14 +127,14 @@ data class ProductUI(
                 labelsTags = product.labelsTags.map { it.replace(Regex("^[a-z]{2}:"), "") },
 
                 // EcoScore Info fields
-                ecoScoreGrade = product.ecoScoreGrade?.uppercase() ?: "N/A",
+                ecoScoreGrade = product.ecoScoreGrade?.uppercase() ?: "U",
                 ecoScoreScore = product.ecoScoreScore?.toString() ?: "N/A",
 
                 // Image Info fields
                 mainImageUrl = product.mainImageUrl,
                 smallImageUrl = product.smallImageUrl,
                 frontThumbUrl = product.frontThumbUrl,
-                imageUrl = product.mainImageUrl
+                imageUrl = null
             )
         }
     }

@@ -59,5 +59,8 @@ data class Product(
     // Image Info fields
     @SerialName("image_url") val mainImageUrl: String? = null,
     @SerialName("image_small_url") val smallImageUrl: String? = null,
-    @SerialName("image_thumb_url") val frontThumbUrl: String? = null
+    @SerialName("image_thumb_url") val frontThumbUrl: String? = null,
+
+
+    val validatedImageUrl: String? = null // New field for validated image URL
 )

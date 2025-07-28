@@ -7,18 +7,17 @@ import com.kyi.knowyouringredients.ingredients.domain.models.Product
 
 class ProductRepository(
     private val remoteDataSource: RemoteProductDataSource,
-    private val localDataSource: ProductDataSource? = null // Nullable for future local source
+    private val localDataSource: ProductDataSource? = null, // Nullable for future local source
 ) : ProductDataSource {
 
     override suspend fun getProducts(
-        brands: String?,
-        categories: String?,
-        nutritionGrade: String?,
+        searchTerm: String,
         page: Int,
-        pageSize: Int
+        pageSize: Int,
+        productType: String
     ): Result<Pair<List<Product>, Int>, NetworkError> {
         // For now, delegate directly to remote; add local logic later
-        return remoteDataSource.getProducts(brands, categories, nutritionGrade, page, pageSize)
+        return remoteDataSource.getProducts(searchTerm, page, pageSize, productType)
     }
 
     override suspend fun fetchProductByBarcode(
@@ -27,6 +26,7 @@ class ProductRepository(
     ): Result<Product, NetworkError> {
         // For now, delegate directly to remote; add local logic later
         return remoteDataSource.fetchProductByBarcode(barcode, productType)
+
     }
 
 }

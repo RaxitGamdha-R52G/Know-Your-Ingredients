@@ -17,82 +17,25 @@ import io.ktor.client.request.parameter
 
 const val fields =
     "code,product_name,brands,packagings,ingredients,nutriments,nutrition_grade_fr,nutrition_score_fr,nova_group,nutrient_levels,additives_n,additives_tags,allergens_tags,categories_tags,quantity,serving_size,image_url,image_small_url,image_thumb_url"
-
-//class RemoteProductDataSource(
-//    private val httpClient: HttpClient
-//) : ProductDataSource {
-//
-//    override suspend fun getProducts(
-//        brands: String?,
-//        categories: String?,
-//        nutritionGrade: String?,
-//        page: Int,
-//        pageSize: Int
-//    ): Result<Pair<List<Product>, Int>, NetworkError> {
-//        return safeCall<ProductsResponseDto> {
-//            httpClient.get(
-//                urlString = constructUrl("/search")
-//            ) {
-//                parameter(
-//                    "fields",
-//                    fields
-//                )
-//                parameter("page", page.toString())
-//                parameter("page_size", pageSize.toString())
-//                brands?.let { parameter("brands_tags", it) }
-//                categories?.let { parameter("categories_tags", it) }
-//                nutritionGrade?.let {
-//                    parameter("nutrition_grades_tags", it)
-//                }
-//            }
-//        }.map { response ->
-//            response.products.map { it.toProduct() } to response.count
-//        }
-//    }
-//
-//
-//    override suspend fun fetchProductByBarcode(
-//        barcode: String,
-//        productType: String
-//    ): Result<Product, NetworkError> {
-//        return safeCall<OneProductResponseDto> {
-//            httpClient.get(
-//                urlString = constructUrl("product/$barcode")
-//            ) {
-//                parameter("fields", fields)
-//                parameter("product_type", productType)
-//            }
-//        }.map { response ->
-//            response.product.toProduct()
-//        }
-//
-//    }
-//
-//}
 class RemoteProductDataSource(
     private val httpClient: HttpClient
 ) : ProductDataSource {
 
     override suspend fun getProducts(
-        brands: String?,
-        categories: String?,
-        nutritionGrade: String?,
+        searchTerm: String,
         page: Int,
-        pageSize: Int
+        pageSize: Int,
+        productType: String
     ): Result<Pair<List<Product>, Int>, NetworkError> {
         return safeCall<ProductsResponseDto>(
-            urlProvider = { constructUrl("/search") },
+            urlProvider = { constructUrl("cgi/search.pl",  productType) },
             execute = { url ->
                 httpClient.get(url) {
-                    parameter(
-                        "fields",
-                        fields
-                    )
+                    parameter("search_terms", searchTerm)
+                    parameter("json",1)
                     parameter("page", page.toString())
                     parameter("page_size", pageSize.toString())
-                    brands?.let { parameter("brands_tags", it) }
-                    categories?.let { parameter("categories_tags", it) }
-                    nutritionGrade?.let { parameter("nutrition_grades_tags", it) }
+                    parameter("fields", fields)
                 }
             }
         ).map { response ->
@@ -105,7 +48,7 @@ class RemoteProductDataSource(
         productType: String
     ): Result<Product, NetworkError> {
         return safeCall<OneProductResponseDto>(
-            urlProvider = { constructUrl("product/$barcode") },
+            urlProvider = { constructUrl("api/v2/product/$barcode", productType) },
             execute = { url ->
                 httpClient.get(url) {
                     parameter("fields", fields)
@@ -113,11 +56,7 @@ class RemoteProductDataSource(
                 }
             }
         ).map { response ->
-//            if(response.status != 1 || response.product == null){
-//                Result.Error(NetworkError.NOT_FOUND)
-//            }
             response.product?.toProduct() as Product
-//            response.product.toProduct()
         }
     }
 

@@ -6,11 +6,10 @@ import com.kyi.knowyouringredients.ingredients.domain.models.Product
 
 interface ProductDataSource {
     suspend fun getProducts(
-        brands: String? = null,
-        categories: String? = null,
-        nutritionGrade: String? = null,
+        searchTerm: String,
         page: Int = 1,
-        pageSize: Int = 25
+        pageSize: Int = 25,
+        productType: String = "food"
     ): Result<Pair<List<Product>, Int>, NetworkError>
 
     suspend fun fetchProductByBarcode(

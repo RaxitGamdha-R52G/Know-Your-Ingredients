@@ -1,25 +1,24 @@
 package com.kyi.knowyouringredients.ingredients.presentation.product_list
 
-import androidx.compose.runtime.Immutable
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
+import com.kyi.knowyouringredients.ingredients.presentation.scan.ScanScreenState
+import com.kyi.knowyouringredients.ingredients.presentation.search.SearchScreenState
 
-@Immutable
-data class ProductListState(
-    val isLoading: Boolean = false,
-    val products: List<ProductUI> = emptyList(),
-    val selectedProduct: ProductUI? = null,
-    val page: Int = 1,
-    val pageSize: Int = 24,
-    val totalCount: Int = 0,
-    val brands: String? = null,
-    val categories: String? = null,
-    val nutritionGrade: String? = null,
 
-    // Camera-related fields
-    val isCameraReady: Boolean = false,
-    val isCameraPermissionGranted: Boolean = false,
-    val isFlashlightOn: Boolean = false,
-    val hasFlashlight: Boolean = false,
-    val cameraError: String? = null,
-//    val isScanning: Boolean = true
-)
+sealed interface ProductListState {
+    val isLoading: Boolean
+    val products: List<ProductUI>
+
+    data class Search(val state: SearchScreenState) : ProductListState {
+        override val isLoading: Boolean = state.isLoading
+        override val products: List<ProductUI> = state.products
+        val totalCount: Int = state.totalCount
+        val page: Int = state.page
+        val pageSize: Int = state.pageSize
+    }
+
+    data class Scan(val state: ScanScreenState) : ProductListState {
+        override val isLoading: Boolean = state.isLoading
+        override val products: List<ProductUI> = state.selectedProduct?.let { listOf(it) } ?: emptyList()
+    }
+}
