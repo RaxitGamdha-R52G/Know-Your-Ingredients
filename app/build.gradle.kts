@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -31,7 +32,6 @@ android {
             buildConfigField("String", "BEAUTY_BASE_URL", "\"https://in.openbeautyfacts.org/\"")
         }
         debug {
-//            buildConfigField("String", "BASE_URL", "\"https://in.openfoodfacts.net/api/v2/\"")
             buildConfigField("String", "FOOD_BASE_URL", "\"https://in.openfoodfacts.org/\"")
             buildConfigField("String", "BEAUTY_BASE_URL", "\"https://in.openbeautyfacts.org/\"")
         }
@@ -50,19 +50,33 @@ android {
 }
 
 dependencies {
-    implementation(libs.coil.compose)
-    implementation(libs.slf4j.android)
+    // Core Libraries
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.bundles.koin)
-    implementation(libs.bundles.ktor)
+    implementation(libs.slf4j.android)
+
+
+    // Compose
     implementation(libs.bundles.compose.core)
     implementation(libs.bundles.compose.material3)
     implementation(libs.bundles.compose.lifecycle)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui.text.google.fonts)
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    // Coil Compose
+    implementation(libs.coil.compose)
+
+
+    // Dependency Injection Koin
+    implementation(libs.bundles.koin)
+
+
+    // Networking Ktor
+    implementation(libs.bundles.ktor)
+
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,6 +85,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+
+
+    // Camera and Barcode Scanning
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
@@ -79,8 +96,20 @@ dependencies {
     implementation(libs.barcode.scanning)
     // Accompanist Permissions for runtime permission handling
     implementation(libs.accompanist.permissions)
+
+
     // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+
+
+    //Firebase BoM
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    // Firebase Auth
+    implementation(libs.firebase.auth)
+    implementation(libs.play.services.auth)
+    implementation(libs.firebase.core)
+
 }
