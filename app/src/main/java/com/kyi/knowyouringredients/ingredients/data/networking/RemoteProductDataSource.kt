@@ -8,7 +8,7 @@ import com.kyi.knowyouringredients.core.domain.util.map
 import com.kyi.knowyouringredients.ingredients.data.mappers.toProduct
 import com.kyi.knowyouringredients.ingredients.data.networking.dto.OneProductResponseDto
 import com.kyi.knowyouringredients.ingredients.data.networking.dto.ProductsResponseDto
-import com.kyi.knowyouringredients.ingredients.domain.ProductDataSource
+import com.kyi.knowyouringredients.ingredients.domain.repository.ProductDataSource
 import com.kyi.knowyouringredients.ingredients.domain.models.Product
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get

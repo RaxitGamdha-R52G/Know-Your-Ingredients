@@ -1,7 +1,9 @@
 package com.kyi.knowyouringredients
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.kyi.knowyouringredients.di.appModule
+import com.kyi.knowyouringredients.di.authModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -10,11 +12,18 @@ class KnowYourIngredientsApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         startKoin {
             androidContext(this@KnowYourIngredientsApp)
             androidLogger()
 
-            modules(appModule)
+            modules(
+                listOf(
+                    appModule,
+                    authModule
+                )
+            )
         }
     }
 }

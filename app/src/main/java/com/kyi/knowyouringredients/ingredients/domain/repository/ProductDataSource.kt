@@ -1,4 +1,4 @@
-package com.kyi.knowyouringredients.ingredients.domain
+package com.kyi.knowyouringredients.ingredients.domain.repository
 
 import com.kyi.knowyouringredients.core.domain.util.NetworkError
 import com.kyi.knowyouringredients.core.domain.util.Result

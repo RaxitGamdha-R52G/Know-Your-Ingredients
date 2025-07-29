@@ -1,7 +1,8 @@
-package com.kyi.knowyouringredients.viewmodels
+package com.kyi.knowyouringredients.ingredients.presentation.viewmodels
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.drawable.VectorDrawable
 import android.util.Log
 import androidx.annotation.OptIn
 import androidx.camera.core.Camera
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -23,7 +25,7 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.kyi.knowyouringredients.R
 import com.kyi.knowyouringredients.core.domain.util.Result
-import com.kyi.knowyouringredients.ingredients.domain.ProductDataSource
+import com.kyi.knowyouringredients.ingredients.domain.repository.ProductDataSource
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 import com.kyi.knowyouringredients.ingredients.presentation.scan.ScanScreenAction
 import com.kyi.knowyouringredients.ingredients.presentation.scan.ScanScreenEvent
@@ -229,7 +231,7 @@ class ScanViewModel(
                     .allowHardware(false)
                     .build()
                 val result = imageLoader.execute(request)
-                if (result is coil.request.SuccessResult && result.drawable !is android.graphics.drawable.VectorDrawable) {
+                if (result is SuccessResult && result.drawable !is VectorDrawable) {
                     selectedImageUrl = url
                     Log.d("ScanViewModel", "Selected valid image URL: $url")
                     break

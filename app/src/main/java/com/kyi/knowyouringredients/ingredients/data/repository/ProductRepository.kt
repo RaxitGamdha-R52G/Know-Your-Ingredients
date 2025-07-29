@@ -1,9 +1,10 @@
-package com.kyi.knowyouringredients.ingredients.domain
+package com.kyi.knowyouringredients.ingredients.data.repository
 
 import com.kyi.knowyouringredients.core.domain.util.NetworkError
 import com.kyi.knowyouringredients.core.domain.util.Result
 import com.kyi.knowyouringredients.ingredients.data.networking.RemoteProductDataSource
 import com.kyi.knowyouringredients.ingredients.domain.models.Product
+import com.kyi.knowyouringredients.ingredients.domain.repository.ProductDataSource
 
 class ProductRepository(
     private val remoteDataSource: RemoteProductDataSource,
