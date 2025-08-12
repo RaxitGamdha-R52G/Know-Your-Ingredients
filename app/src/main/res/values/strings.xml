@@ -20,7 +20,7 @@
     <string name="nav_scan">Scan</string>
     <string name="nav_search">Search</string>
     <string name="nav_lists">Lists</string>
-    <string name="nav_profile">Profile</string>
+    <string name="nav_settings">Settings</string>
 
     <!-- Scan Screen Strings -->
     <string name="camera_permission_denied">Camera permission is required to scan barcodes</string>
@@ -46,7 +46,7 @@
     <string name="no_ingredients_listed">No ingredients listed</string>
     <string name="ingredient_item">- %1$s (%2$s)</string>
     <string name="sub_ingredient_item">  * %s</string>
-    <string name="nutrition_per_100g_serving">Nutrition (per 100g / per serving)</string>
+    <string name="nutrition_per_100g_serving">Nutrition\'s</string>
     <string name="energy">Energy: %1$s / %2$s</string>
     <string name="fat">Fat: %1$s / %2$s</string>
     <string name="saturated_fat">Saturated Fat: %1$s / %2$s</string>

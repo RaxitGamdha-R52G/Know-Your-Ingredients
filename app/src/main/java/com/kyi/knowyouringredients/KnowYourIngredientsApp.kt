@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.kyi.knowyouringredients.di.appModule
 import com.kyi.knowyouringredients.di.authModule
+import com.kyi.knowyouringredients.di.preferencesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -21,7 +22,8 @@ class KnowYourIngredientsApp : Application() {
             modules(
                 listOf(
                     appModule,
-                    authModule
+                    authModule,
+                    preferencesModule
                 )
             )
         }
