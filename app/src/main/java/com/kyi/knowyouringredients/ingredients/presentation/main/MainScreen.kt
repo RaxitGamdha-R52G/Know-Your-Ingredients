@@ -34,9 +34,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
 import com.kyi.knowyouringredients.R
 import com.kyi.knowyouringredients.core.domain.util.AuthResult
 import com.kyi.knowyouringredients.core.navigation.AuthDestination
@@ -88,6 +85,7 @@ fun MainScreen(
                         }
                     }
                 }
+
                 else -> Unit
             }
         }
@@ -103,8 +101,12 @@ fun MainScreen(
                         errorMessage = message
                     }
                 }
+
                 is SearchScreenEvent.NavigateToProductDetail -> {
-                    Log.d("MainScreen", "Navigating to product detail: ${event.productUI.productName}")
+                    Log.d(
+                        "MainScreen",
+                        "Navigating to product detail: ${event.productUI.productName}"
+                    )
                     navController.navigate("product_detail/${event.productUI.code}") {
                         popUpTo(MainScreenDestination.Search.route) { inclusive = false }
                     }
@@ -123,6 +125,7 @@ fun MainScreen(
                         errorMessage = message
                     }
                 }
+
                 is ScanScreenEvent.NavigateToProductDetail -> {
                     Log.d(
                         "MainScreen",
@@ -200,7 +203,12 @@ fun MainScreen(
                                     modifier = Modifier.size(24.dp)
                                 )
                             },
-                            label = { Text(item.label, style = MaterialTheme.typography.labelSmall) }
+                            label = {
+                                Text(
+                                    item.label,
+                                    style = MaterialTheme.typography.labelSmall
+                                )
+                            }
                         )
                     }
                 }
@@ -263,6 +271,7 @@ fun MainScreen(
                             )
                             ProductListState.Scan(scanState.value)
                         }
+
                         searchState.value.selectedProduct?.code == code -> {
                             Log.d(
                                 "MainScreen",
@@ -270,6 +279,7 @@ fun MainScreen(
                             )
                             ProductListState.Search(searchState.value)
                         }
+
                         else -> {
                             Log.w(
                                 "MainScreen",
@@ -287,6 +297,7 @@ fun MainScreen(
                                     scanViewModel.clearSelectedProduct()
                                     scanViewModel.onAction(ScanScreenAction.ResumeScanning)
                                 }
+
                                 is ProductListState.Search -> searchViewModel.clearSelectedProduct()
                             }
                             navController.popBackStack()

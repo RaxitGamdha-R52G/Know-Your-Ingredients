@@ -32,6 +32,8 @@ import com.kyi.knowyouringredients.ingredients.presentation.models.IngredientUI
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 import com.kyi.knowyouringredients.ingredients.presentation.productPreview
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -124,7 +126,11 @@ fun IngredientsTable(ingredients: List<IngredientUI>) {
                 // No maxLines, allowing multi-line
             )
         }
-        Divider(color = MaterialTheme.colorScheme.outline)
+        HorizontalDivider(
+            Modifier,
+            DividerDefaults.Thickness,
+            color = MaterialTheme.colorScheme.outline
+        )
 
         // Ingredient Rows
         ingredients.forEach { ingredient ->

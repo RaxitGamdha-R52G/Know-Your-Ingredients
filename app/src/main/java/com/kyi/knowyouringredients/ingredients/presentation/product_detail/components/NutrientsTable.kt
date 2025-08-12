@@ -26,10 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.kyi.knowyouringredients.R
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 import com.kyi.knowyouringredients.ingredients.presentation.productPreview
-import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.tooling.preview.Preview
 import kotlin.math.roundToInt
 
@@ -113,7 +113,11 @@ fun NutrientsTable(product: ProductUI) {
                 textAlign = TextAlign.Center
             )
         }
-        Divider(color = MaterialTheme.colorScheme.outline)
+        HorizontalDivider(
+            Modifier,
+            DividerDefaults.Thickness,
+            color = MaterialTheme.colorScheme.outline
+        )
 
         nutrients.forEach { row ->
             Row(
@@ -161,7 +165,7 @@ private fun getNutrientRows(product: ProductUI): List<NutrientRow> {
     fun String.toNutrientValue(): Double? {
         return try {
             this.replace(Regex("[^0-9.]"), "").toDoubleOrNull()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }

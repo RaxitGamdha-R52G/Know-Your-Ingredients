@@ -38,12 +38,10 @@ import androidx.compose.ui.unit.dp
 import com.kyi.knowyouringredients.R
 import com.kyi.knowyouringredients.ingredients.presentation.components.NutritionGrade
 import com.kyi.knowyouringredients.ingredients.presentation.components.ProductImage
-import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 import com.kyi.knowyouringredients.ingredients.presentation.product_detail.components.DetailCard
 import com.kyi.knowyouringredients.ingredients.presentation.product_detail.components.IngredientsTable
 import com.kyi.knowyouringredients.ingredients.presentation.product_detail.components.NutrientsTable
 import com.kyi.knowyouringredients.ingredients.presentation.product_list.ProductListState
-import com.kyi.knowyouringredients.ui.theme.KnowYourIngredientsTheme
 
 @Composable
 fun ProductDetailScreen(
@@ -76,7 +74,10 @@ fun ProductDetailScreen(
         }
     } else if (selectedProduct != null && !isNavigatingBack) {
         val productUI = selectedProduct
-        Log.d("ProductDetailScreen", "Rendering product: ${productUI.productName}, ingredients count: ${productUI.ingredients.size}")
+        Log.d(
+            "ProductDetailScreen",
+            "Rendering product: ${productUI.productName}, ingredients count: ${productUI.ingredients.size}"
+        )
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()

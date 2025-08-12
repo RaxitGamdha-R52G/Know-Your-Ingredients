@@ -1,7 +1,6 @@
 package com.kyi.knowyouringredients
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
 import com.kyi.knowyouringredients.di.appModule
 import com.kyi.knowyouringredients.di.authModule
 import com.kyi.knowyouringredients.di.preferencesModule
