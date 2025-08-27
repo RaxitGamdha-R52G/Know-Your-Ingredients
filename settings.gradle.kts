@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Know Your Ingredients"
 include(":app")
+include(":OpenFoodFactsApi")

@@ -28,6 +28,8 @@ playServicesAuth = "21.4.0"
 slf4jAndroid = "1.7.36"
 uiTextGoogleFonts = "1.8.3"
 room = "2.7.2"
+appcompat = "1.7.1"
+material = "1.12.0"
 
 [libraries]
 
@@ -95,6 +97,8 @@ desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -102,6 +106,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]
 koin = ["koin-core", "koin-android", "koin-androidx-compose"]

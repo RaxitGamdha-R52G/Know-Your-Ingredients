@@ -112,4 +112,8 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.firebase.core)
 
+
+    //OpenFoodFacts API
+    implementation(project(":OpenFoodFactsApi"))
+
 }
