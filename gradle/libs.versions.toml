@@ -29,6 +29,7 @@ slf4jAndroid = "1.7.36"
 uiTextGoogleFonts = "1.8.3"
 room = "2.7.2"
 datastore ="1.1.7"
+firebaseFirestore = "25.1.4"
 
 [libraries]
 
@@ -37,6 +38,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-core = { module = "com.google.firebase:firebase-core", version.ref = "firebaseCore" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestore" }
 
 # Koin
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }

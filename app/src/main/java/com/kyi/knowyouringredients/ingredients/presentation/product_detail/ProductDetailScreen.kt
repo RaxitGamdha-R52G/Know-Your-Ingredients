@@ -54,10 +54,12 @@ fun ProductDetailScreen(
     val selectedProduct = when (state) {
         is ProductListState.Search -> state.state.selectedProduct
         is ProductListState.Scan -> state.state.selectedProduct
+        is ProductListState.History -> state.product
     }
     val isLoading = when (state) {
         is ProductListState.Search -> state.state.isLoading
         is ProductListState.Scan -> state.state.isLoading
+        is ProductListState.History -> state.isLoading
     }
 
     BackHandler(enabled = !isNavigatingBack, onBack = {
@@ -236,20 +238,6 @@ fun ProductDetailScreen(
                             ),
                             style = MaterialTheme.typography.bodyMedium
                         )
-                }
-            }
-
-            item {
-                Button(
-                    onClick = {
-                        isNavigatingBack = true
-                        onBack()
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                ) {
-                    Text(stringResource(R.string.back))
                 }
             }
         }

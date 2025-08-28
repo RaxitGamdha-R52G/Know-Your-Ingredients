@@ -3,6 +3,7 @@ package com.kyi.knowyouringredients
 import android.app.Application
 import com.kyi.knowyouringredients.di.appModule
 import com.kyi.knowyouringredients.di.authModule
+import com.kyi.knowyouringredients.di.historyModule
 import com.kyi.knowyouringredients.di.preferencesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -22,7 +23,8 @@ class KnowYourIngredientsApp : Application() {
                 listOf(
                     appModule,
                     authModule,
-                    preferencesModule
+                    preferencesModule,
+                    historyModule
                 )
             )
         }

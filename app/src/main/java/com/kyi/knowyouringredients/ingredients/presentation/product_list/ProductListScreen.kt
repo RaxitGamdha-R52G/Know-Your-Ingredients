@@ -61,6 +61,8 @@ fun ProductListScreen(
         }
     }
 
+    val searchState = (currentState as? ProductListState.Search)?.state
+
     when {
         state.isLoading && state.products.isEmpty() -> {
             Box(
@@ -72,7 +74,7 @@ fun ProductListScreen(
                 CircularProgressIndicator()
             }
         }
-        state.products.isEmpty() -> {
+        state.products.isEmpty() && searchState?.searchPerformed == true -> {
             Box(
                 modifier = modifier
                     .fillMaxSize()
@@ -86,6 +88,24 @@ fun ProductListScreen(
                 )
             }
         }
+
+        state.products.isEmpty() && searchState?.searchPerformed == false -> {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Search for products by name or brand or category to see results here.",
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+
         else -> {
             LazyColumn(
                 state = listState,
@@ -102,8 +122,8 @@ fun ProductListScreen(
                             onAction(
                                 when (state) {
                                     is ProductListState.Search -> ProductListAction.Search(SearchScreenAction.OnProductClicked(product))
-                                    is ProductListState.Scan -> ProductListAction.Scan(
-                                        ScanScreenAction.OnProductClicked(product))
+                                    is ProductListState.Scan -> ProductListAction.Scan(ScanScreenAction.OnProductClicked(product))
+                                    is ProductListState.History -> throw IllegalStateException("ProductListScreen should not be used with History state.")
                                 }
                             )
                         }

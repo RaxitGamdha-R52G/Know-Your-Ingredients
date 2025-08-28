@@ -8,7 +8,10 @@ import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.google.firebase.auth.FirebaseAuth
 import com.kyi.knowyouringredients.core.domain.util.Result
+import com.kyi.knowyouringredients.ingredients.domain.models.HistoryItem
+import com.kyi.knowyouringredients.ingredients.domain.repository.HistoryDataSource
 import com.kyi.knowyouringredients.ingredients.domain.repository.ProductDataSource
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 import com.kyi.knowyouringredients.ingredients.presentation.search.SearchScreenAction
@@ -25,7 +28,9 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class SearchViewModel(
-    private val productDataSource: ProductDataSource
+    private val productDataSource: ProductDataSource,
+    private val historyDataSource: HistoryDataSource,
+    private val firebaseAuth: FirebaseAuth
 ) : ViewModel(), KoinComponent {
 
     private val _state = MutableStateFlow(SearchScreenState())
@@ -40,7 +45,7 @@ class SearchViewModel(
     fun onAction(action: SearchScreenAction) {
         when (action) {
             is SearchScreenAction.Search -> {
-                _state.update { it.copy(isLoading = true, products = emptyList()) }
+                _state.update { it.copy(isLoading = true, products = emptyList(), searchPerformed = true) }
                 loadProducts(
                     query = action.searchQuery,
                     page = 1,
@@ -58,9 +63,24 @@ class SearchViewModel(
             }
             is SearchScreenAction.OnProductClicked -> {
                 viewModelScope.launch {
+                    saveToHistory(action.productUI)
                     selectProduct(action.productUI)
                     _events.send(SearchScreenEvent.NavigateToProductDetail(action.productUI))
                 }
+            }
+        }
+    }
+
+    private fun saveToHistory(productUI: ProductUI) {
+        viewModelScope.launch {
+            firebaseAuth.currentUser?.uid?.let { userId ->
+                val historyItem = HistoryItem(
+                    name = productUI.productName,
+                    code = productUI.code,
+                    imageUrl = productUI.imageUrl ?: productUI.frontThumbUrl ?: "",
+                    type = "searched"
+                )
+                historyDataSource.addHistoryItem(userId, historyItem)
             }
         }
     }

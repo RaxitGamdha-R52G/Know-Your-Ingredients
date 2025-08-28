@@ -8,11 +8,10 @@ import com.kyi.knowyouringredients.ingredients.presentation.viewmodels.ScanViewM
 import com.kyi.knowyouringredients.ingredients.presentation.viewmodels.SearchViewModel
 import io.ktor.client.engine.cio.CIO
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-//    single<Context> { androidContext() }
     includes(imageModule)
     single { HttpClientFactory.create(CIO.create()) }
     singleOf(::RemoteProductDataSource)
@@ -22,8 +21,8 @@ val appModule = module {
             localDataSource = null
         )
     }
-    viewModelOf(::ScanViewModel)
-    viewModelOf(::SearchViewModel)
+    viewModel { ScanViewModel(get(), get(), get()) }
+    viewModel { SearchViewModel(get(), get(), get()) }
 }
 
 

@@ -19,7 +19,7 @@
     <!-- Navigation Bar Strings -->
     <string name="nav_scan">Scan</string>
     <string name="nav_search">Search</string>
-    <string name="nav_lists">Lists</string>
+    <string name="nav_lists">History</string>
     <string name="nav_settings">Settings</string>
 
     <!-- Scan Screen Strings -->

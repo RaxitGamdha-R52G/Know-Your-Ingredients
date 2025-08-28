@@ -18,6 +18,7 @@ import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.google.firebase.auth.FirebaseAuth
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -25,6 +26,8 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.kyi.knowyouringredients.R
 import com.kyi.knowyouringredients.core.domain.util.Result
+import com.kyi.knowyouringredients.ingredients.domain.models.HistoryItem
+import com.kyi.knowyouringredients.ingredients.domain.repository.HistoryDataSource
 import com.kyi.knowyouringredients.ingredients.domain.repository.ProductDataSource
 import com.kyi.knowyouringredients.ingredients.presentation.models.ProductUI
 import com.kyi.knowyouringredients.ingredients.presentation.scan.ScanScreenAction
@@ -43,7 +46,9 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class ScanViewModel(
-    private val productDataSource: ProductDataSource
+    private val productDataSource: ProductDataSource,
+    private val historyDataSource: HistoryDataSource,
+    private val firebaseAuth: FirebaseAuth
 ) : ViewModel(), KoinComponent {
 
     private val _state = MutableStateFlow(ScanScreenState())
@@ -200,8 +205,8 @@ class ScanViewModel(
             val result = productDataSource.fetchProductByBarcode(barcode, productType)
             when (result) {
                 is Result.Success -> {
-//                    productDataSource.saveProduct(result.data) // Save to Room for History
                     val productUI = ProductUI.fromDomain(result.data)
+                    saveToHistory(productUI)
                     Log.d("ScanViewModel", "Fetched product: ${productUI.productName}")
                     selectProduct(productUI) // Set selectedProduct before navigation
                     _state.update { it.copy(isLoading = false) }
@@ -212,6 +217,20 @@ class ScanViewModel(
                     _state.update { it.copy(isLoading = false, selectedProduct = null) }
                     _events.send(ScanScreenEvent.Error(result.error))
                 }
+            }
+        }
+    }
+
+    private fun saveToHistory(productUI: ProductUI) {
+        viewModelScope.launch {
+            firebaseAuth.currentUser?.uid?.let { userId ->
+                val historyItem = HistoryItem(
+                    name = productUI.productName,
+                    code = productUI.code,
+                    imageUrl = productUI.imageUrl ?: productUI.frontThumbUrl ?: "",
+                    type = "scanned"
+                )
+                historyDataSource.addHistoryItem(userId, historyItem)
             }
         }
     }

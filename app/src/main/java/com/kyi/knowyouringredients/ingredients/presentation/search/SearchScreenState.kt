@@ -12,4 +12,5 @@ data class SearchScreenState(
     val pageSize: Int = 24,
     val totalCount: Int = 0,
     val searchQuery: String = "",
+    val searchPerformed: Boolean = false
 )
